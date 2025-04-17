@@ -3,7 +3,7 @@
 This project is a take-home frontend interview task built with:
 
 - ⚡ **Angular 19** (standalone components + signals)
-- 📦 **Nx Monorepo**
+- 📦 **Nx Monorepo** (if you do not have Nx install on your machine, you will need to do so)
 - 🧪 **MSW (Mock Service Worker)** to mock backend APIs
 - 🧠 Typed APIs with realistic mock data and validation
 

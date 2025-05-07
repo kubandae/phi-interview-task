@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { BookingStepGuard } from 'src/app/guards/booking-step.guard';
 
 export const bookingRoutes: Route[] = [
     {
@@ -20,6 +21,7 @@ export const bookingRoutes: Route[] = [
             },
             {
                 path: 'personal-info',
+                canActivate: [BookingStepGuard],
                 loadComponent: () =>
                     import('./booking-personal-info/booking-personal-info.component').then(
                         (c) => c.BookingPersonalInfoComponent
@@ -27,6 +29,7 @@ export const bookingRoutes: Route[] = [
             },
             {
                 path: 'summary',
+                canActivate: [BookingStepGuard],
                 loadComponent: () =>
                     import('./booking-summary/booking-summary.component').then(
                         (c) => c.BookingSummaryComponent
@@ -34,6 +37,7 @@ export const bookingRoutes: Route[] = [
             },
             {
                 path: 'thank-you',
+                canActivate: [BookingStepGuard],
                 loadComponent: () =>
                     import('./booking-thank-you/booking-thank-you.component').then(
                         (c) => c.BookingThankYouComponent

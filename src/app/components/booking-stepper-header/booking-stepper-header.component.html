@@ -1,0 +1,16 @@
+<div class="stepper">
+  <div class="step-container" [class.active]="activeStep() === 0">
+    <div class="step"></div>
+    <div class="label">Výber termínu</div>
+  </div>
+  <div class="line"></div>
+  <div class="step-container" [class.active]="activeStep() === 1">
+    <div class="step"></div>
+    <div class="label">Vaše údaje</div>
+  </div>
+  <div class="line"></div>
+  <div class="step-container" [class.active]="activeStep() === 2">
+    <div class="step"></div>
+    <div class="label">Zhrnutie</div>
+  </div>
+</div>

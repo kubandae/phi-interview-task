@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
-import { BookingStepperService } from '../../services/booking-stepper-service';
+import { BookingStepperService } from '../../services/booking-stepper.service';
 
 @Component({
   selector: 'app-booking-thank-you',

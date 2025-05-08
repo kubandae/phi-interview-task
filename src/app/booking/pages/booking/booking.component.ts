@@ -2,7 +2,7 @@ import { Component, effect, inject, TemplateRef, ViewChild } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { BookingStepperHeaderComponent } from '../../components/booking-stepper-header/booking-stepper-header.component';
-import { BookingStepperService } from '../../services/booking-stepper-service';
+import { BookingStepperService } from '../../services/booking-stepper.service';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
 
 @Component({

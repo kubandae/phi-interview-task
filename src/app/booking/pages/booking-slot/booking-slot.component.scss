@@ -3,3 +3,91 @@
     flex-direction: column;
     height: 100%;
 }
+
+.inline-calendar-card {
+    width: 300px;
+}
+
+::ng-deep .mat-calendar-body-cell.has-availability {
+    position: absolute;
+}
+
+::ng-deep .mat-calendar-body-cell.has-availability .mat-calendar-body-cell-content::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #0BA13B;
+    border-radius: 50%;
+}
+
+::ng-deep .mat-calendar-body-selected {
+    background-color: #0BA13B !important;
+    color: white !important;
+}
+
+.slot-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.slot-selection-info {
+    text-align: center;
+}
+
+.slot-selection-wrapper {
+    padding: 24px;
+    background-color: white;
+}
+
+.booking-slot-selection-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+}
+
+mat-divider[vertical] {
+    height: auto;
+    align-self: stretch;
+    margin: 0 16px;
+}
+
+.green-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #0BA13B;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.availability-info {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.time-slots-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 200px;
+    align-items: center;
+}
+
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.slot-selected {
+    background-color: #0BA13B;
+    color: white !important;
+}

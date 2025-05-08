@@ -35,12 +35,12 @@
 }
 
 .step-container.active .step {
-    border-color: #4caf50;
+    border-color: #0BA13B;
     background-color: #e8f5e9;
 }
 
 .step-container.active .step::after {
-    background-color: #4caf50;
+    background-color: #0BA13B;
 }
 
 .label {
@@ -50,7 +50,7 @@
 }
 
 .step-container.active .label {
-    color: #4caf50;
+    color: #0BA13B;
     font-weight: 500;
 }
 

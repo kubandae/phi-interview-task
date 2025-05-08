@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BookingStepperService } from 'src/app/services/booking-stepper-service';
-import { BookingFooterComponent } from 'src/app/components/booking-footer/booking-footer.component';
 import { MatButtonModule } from '@angular/material/button';
+import { BookingFooterComponent } from '../../components/booking-footer/booking-footer.component';
+import { BookingStepperService } from '../../services/booking-stepper-service';
 
 @Component({
   selector: 'app-booking-slot',

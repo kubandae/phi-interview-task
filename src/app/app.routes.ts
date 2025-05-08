@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { bookingRoutes } from './pages/booking/booking.routes';
+import { bookingRoutes } from './booking/booking.routes';
 
 export const appRoutes: Route[] = [{
     path: '',

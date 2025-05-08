@@ -1,11 +1,11 @@
 import { Route } from '@angular/router';
-import { BookingStepGuard } from 'src/app/guards/booking-step.guard';
+import { BookingStepGuard } from './guards/booking-step.guard';
 
 export const bookingRoutes: Route[] = [
     {
         path: '',
         loadComponent: () =>
-            import('./booking/booking.component').then((c) => c.BookingComponent),
+            import('./pages/booking/booking.component').then((c) => c.BookingComponent),
         children: [
             {
                 path: '',
@@ -15,7 +15,7 @@ export const bookingRoutes: Route[] = [
             {
                 path: 'slot',
                 loadComponent: () =>
-                    import('./booking-slot/booking-slot.component').then(
+                    import('./pages/booking-slot/booking-slot.component').then(
                         (c) => c.BookingSlotComponent
                     ),
             },
@@ -23,7 +23,7 @@ export const bookingRoutes: Route[] = [
                 path: 'personal-info',
                 canActivate: [BookingStepGuard],
                 loadComponent: () =>
-                    import('./booking-personal-info/booking-personal-info.component').then(
+                    import('./pages/booking-personal-info/booking-personal-info.component').then(
                         (c) => c.BookingPersonalInfoComponent
                     ),
             },
@@ -31,7 +31,7 @@ export const bookingRoutes: Route[] = [
                 path: 'summary',
                 canActivate: [BookingStepGuard],
                 loadComponent: () =>
-                    import('./booking-summary/booking-summary.component').then(
+                    import('./pages/booking-summary/booking-summary.component').then(
                         (c) => c.BookingSummaryComponent
                     ),
             },
@@ -39,7 +39,7 @@ export const bookingRoutes: Route[] = [
                 path: 'thank-you',
                 canActivate: [BookingStepGuard],
                 loadComponent: () =>
-                    import('./booking-thank-you/booking-thank-you.component').then(
+                    import('./pages/booking-thank-you/booking-thank-you.component').then(
                         (c) => c.BookingThankYouComponent
                     ),
             },

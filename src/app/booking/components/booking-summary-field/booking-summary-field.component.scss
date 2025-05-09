@@ -1,0 +1,17 @@
+.booking-summary-field {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .value {
+    font-size: 18px;
+    font-weight: 500;
+    color: #003366;
+    white-space: pre-line;
+  }
+}

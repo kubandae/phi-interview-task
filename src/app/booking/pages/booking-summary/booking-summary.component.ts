@@ -1,20 +1,86 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { BookingFooterComponent } from '../../components/booking-footer/booking-footer.component';
+import { BookingStepFooterComponent } from '../../components/booking-step-footer/booking-step-footer.component';
 import { BookingStepperService } from '../../services/booking-stepper.service';
+import { BookingAppointmentService } from '../../services/booking-appointment.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { CompleteBookingDto } from '../../models/dtos/complete-booking-dto.model';
+import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BookingSummaryFieldComponent } from '../../components/booking-summary-field/booking-summary-field.component';
 
 @Component({
   selector: 'app-booking-summary',
-  imports: [CommonModule, RouterModule, BookingFooterComponent, MatButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BookingStepHeaderComponent,
+    BookingStepFooterComponent,
+    BookingSummaryFieldComponent,
+    MatButtonModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatIconModule,
+  ],
   templateUrl: './booking-summary.component.html',
   styleUrl: './booking-summary.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingSummaryComponent implements OnInit {
   bookingStepperService = inject(BookingStepperService);
+  bookingAppointmentService = inject(BookingAppointmentService);
+  router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
+
+  personalInfo = this.bookingAppointmentService.personalInfo;
+  appointmentSummary = this.bookingAppointmentService.appointmentSummary;
+
+  formBuilder = inject(FormBuilder);
+
+  readonly form = this.formBuilder.group({
+    gdpr: [false, Validators.requiredTrue],
+    terms: [false, Validators.requiredTrue],
+    marketing: [false],
+  });
 
   ngOnInit(): void {
     this.bookingStepperService.setActiveStep(2);
+  }
+
+  completeBookingAndMoveNext() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    if (!this.bookingAppointmentService.selectedTimeSlot()?.id) {
+      throw new Error('Missing time slot information.');
+    }
+
+    const completeBookingDto: CompleteBookingDto = {
+      id: this.bookingAppointmentService.selectedTimeSlot()!.id,
+    };
+
+    this.bookingAppointmentService
+      .completeBooking(completeBookingDto)
+      .subscribe((result) => {
+        if (result.success) {
+          this.router.navigate(['../thank-you'], {
+            relativeTo: this.activatedRoute,
+          });
+        } else {
+          this.bookingAppointmentService.resetBooking();
+          this.router.navigate(['../error'], {
+            relativeTo: this.activatedRoute,
+          });
+        }
+      });
   }
 }

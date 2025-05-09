@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AvailableSlotsDto } from '../models/dtos/available-slots-dto.model';
 import { PersonalInfoDto } from '../models/dtos/personal-info-dto.model';
 import { PersonalInfoResponseDto } from '../models/dtos/personal-info-response-dto.model';
+import { CompleteBookingDto } from '../models/dtos/complete-booking-dto.model';
+import { CompleteBookingResponseDto } from '../models/dtos/complete-booking-response-dto';
 
 @Injectable({ providedIn: 'root' })
 export class BookingApiService {
@@ -11,7 +13,7 @@ export class BookingApiService {
 
   getAvailableSlots(): Observable<AvailableSlotsDto> {
     return this.httpClient.get<AvailableSlotsDto>('/api/available-slots');
-    }
+  }
 
   submitPersonalInfo(
     data: PersonalInfoDto
@@ -21,4 +23,13 @@ export class BookingApiService {
       data
     );
   }
+
+  completeBooking(
+    data: CompleteBookingDto
+  ): Observable<CompleteBookingResponseDto> {
+    return this.httpClient.post<CompleteBookingResponseDto>(
+      '/api/complete',
+      data
+    );
   }
+}

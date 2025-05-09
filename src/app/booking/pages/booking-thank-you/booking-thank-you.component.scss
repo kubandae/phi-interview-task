@@ -1,5 +1,26 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.booking-thank-you-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+}
+
+.booking-thank-you-title {
+  font-size: 24px;
+  font-weight: 400;
+  color: #033f75;
+}
+
+.booking-thank-you-subtitle {
+  font-size: 16px;
+  color: #0ba13b;
+  margin-bottom: 32px;
 }

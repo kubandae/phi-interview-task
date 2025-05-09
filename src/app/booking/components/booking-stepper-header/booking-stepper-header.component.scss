@@ -1,8 +1,9 @@
 .stepper {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .step-container {
@@ -10,37 +11,22 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  color: #bbb;
+
+  &.active .step-icon,
+  &.completed .step-icon {
+    color: #0ba13b;
+  }
+
+  &.active .label,
+  &.completed .label {
+    color: #666a71;
+    font-weight: 500;
+  }
 }
 
-.step {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid #bbb;
-  background-color: transparent;
-  flex-shrink: 0;
-}
-
-.step::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  background-color: #bbb;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.step-container.active .step {
-  border-color: #0ba13b;
-  background-color: #e8f5e9;
-}
-
-.step-container.active .step::after {
-  background-color: #0ba13b;
+.step-icon {
+  font-size: 24px;
 }
 
 .label {
@@ -49,15 +35,14 @@
   text-align: center;
 }
 
-.step-container.active .label {
-  color: #0ba13b;
-  font-weight: 500;
-}
-
 .line {
   width: 80px;
   height: 2px;
-  background-color: #ddd;
+  background-color: #e8e9ea;
   align-self: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+
+  &.line-completed {
+    background-color: #0ba13b;
+  }
 }

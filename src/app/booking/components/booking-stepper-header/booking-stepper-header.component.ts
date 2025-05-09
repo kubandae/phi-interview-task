@@ -12,5 +12,7 @@ import { BookingStepperService } from '../../services/booking-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingStepperHeaderComponent {
-  activeStep = inject(BookingStepperService).activeStep;
+  readonly bookingStepperService = inject(BookingStepperService);
+  readonly activeStep = this.bookingStepperService.activeStep;
+  readonly steps = this.bookingStepperService.steps;
 }

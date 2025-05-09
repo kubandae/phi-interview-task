@@ -1,16 +1,18 @@
 <div class="stepper">
-  <div class="step-container" [class.active]="activeStep() === 0">
-    <div class="step"></div>
-    <div class="label">Výber termínu</div>
+  @for (step of steps; track step; let i = $index) {
+  <div
+    class="step-container"
+    [class.active]="(activeStep() ?? -1) === i"
+    [class.completed]="(activeStep() ?? -1) > i"
+  >
+    <mat-icon class="step-icon">
+      {{ (activeStep() ?? -1) > i ? 'check_circle' : 'adjust' }}
+    </mat-icon>
+
+    <div class="label">{{ step }}</div>
   </div>
-  <div class="line"></div>
-  <div class="step-container" [class.active]="activeStep() === 1">
-    <div class="step"></div>
-    <div class="label">Vaše údaje</div>
-  </div>
-  <div class="line"></div>
-  <div class="step-container" [class.active]="activeStep() === 2">
-    <div class="step"></div>
-    <div class="label">Zhrnutie</div>
-  </div>
+
+  @if (i < steps.length - 1) {
+  <div class="line" [class.line-completed]="(activeStep() ?? -1) > i"></div>
+  } }
 </div>

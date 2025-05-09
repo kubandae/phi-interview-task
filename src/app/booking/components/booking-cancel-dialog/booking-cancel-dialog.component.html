@@ -1,0 +1,22 @@
+<div class="dialog-wrapper">
+  <button mat-icon-button class="close-button" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2 class="dialog-title">Chystáte sa zrušiť rezervačný proces</h2>
+
+  <mat-dialog-content class="dialog-content">
+    Naozaj chcete zrušiť proces rezervácie? Po tomto kroku stratíte uložené
+    zmeny a v prípade opätovnej rezervácie bude potrebné spraviť celý proces
+    odznova.
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-stroked-button (click)="cancelBooking()">
+      Áno, zrušiť rezerváciu
+    </button>
+    <button mat-flat-button color="primary" mat-dialog-close cdkFocusInitial>
+      Nie, chcem pokračovať
+    </button>
+  </mat-dialog-actions>
+</div>

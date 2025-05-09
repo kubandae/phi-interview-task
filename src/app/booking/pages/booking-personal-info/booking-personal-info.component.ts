@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BookingStepFooterComponent } from '../../components/booking-step-footer/booking-step-footer.component';
@@ -37,21 +44,19 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingPersonalInfoComponent implements OnInit {
-  bookingStepperService = inject(BookingStepperService);
-  bookingAppointmentService = inject(BookingAppointmentService);
-  toastService = inject(ToastService);
-  router = inject(Router);
-  activatedRoute = inject(ActivatedRoute);
+  readonly bookingStepperService = inject(BookingStepperService);
+  readonly bookingAppointmentService = inject(BookingAppointmentService);
+  readonly toastService = inject(ToastService);
+  readonly router = inject(Router);
+  readonly activatedRoute = inject(ActivatedRoute);
+  readonly formBuilder = inject(FormBuilder);
 
-  formBuilder = inject(FormBuilder);
-  form!: FormGroup;
-
-  countries: Array<{ id: string; name: string }> = [
+  readonly countries: Array<{ id: string; name: string }> = [
     { id: 'sk', name: 'Slovensko' },
     { id: 'cz', name: 'Česká Republika' },
   ];
-
-  cities: Array<{ id: string; name: string; countryId: string }> = [
+  readonly requiredCityForCountry = ['sk'];
+  readonly cities: Array<{ id: string; name: string; countryId: string }> = [
     { id: 'ba', name: 'Bratislava', countryId: 'sk' },
     { id: 'ke', name: 'Košice', countryId: 'sk' },
     { id: 'pr', name: 'Praha', countryId: 'cz' },
@@ -59,10 +64,15 @@ export class BookingPersonalInfoComponent implements OnInit {
   ];
 
   readonly selectedCountryId = signal<string | null>(null);
+  readonly showCityControl = computed(() => {
+    return this.requiredCityForCountry.includes(this.selectedCountryId() ?? '');
+  });
   readonly filteredCities = computed(() => {
     const countryId = this.selectedCountryId();
     return this.cities.filter((city) => city.countryId === countryId);
   });
+
+  form!: FormGroup;
 
   ngOnInit(): void {
     this.bookingStepperService.setActiveStep(1);
@@ -82,7 +92,9 @@ export class BookingPersonalInfoComponent implements OnInit {
     this.form.get('countryId')?.valueChanges.subscribe((countryId) => {
       this.selectedCountryId.set(countryId);
       const cityIdControl = this.form.get('cityId');
-      if (countryId === 'sk') {
+      if (
+        this.requiredCityForCountry.includes(this.selectedCountryId() ?? '')
+      ) {
         cityIdControl?.setValidators(Validators.required);
       } else {
         cityIdControl?.clearValidators();

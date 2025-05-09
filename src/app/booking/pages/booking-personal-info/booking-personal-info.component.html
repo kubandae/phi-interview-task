@@ -57,6 +57,7 @@
           }
         </mat-form-field>
 
+        @if(showCityControl()) {
         <mat-form-field appearance="outline">
           <mat-label>Mesto / Obec</mat-label>
           <mat-select formControlName="cityId">
@@ -69,6 +70,7 @@
           <mat-error>Povinné pole (pre Slovensko)</mat-error>
           }
         </mat-form-field>
+        }
       </div>
 
       <app-booking-step-header

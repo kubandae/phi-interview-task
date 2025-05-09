@@ -27,7 +27,10 @@
         </app-booking-summary-field>
 
         <app-booking-summary-field label="Adresa">
-          {{ personalInfo()?.cityName }}<br />
+          @if(personalInfo()?.cityName) {
+          {{ personalInfo()?.cityName }}
+          <br />
+          }
           {{ personalInfo()?.countryName }}
         </app-booking-summary-field>
 

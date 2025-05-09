@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AvailableSlots } from '../models/available-time-slot';
+import { AvailableSlotsDto } from '../models/dtos/available-slots-dto.model';
 
 @Injectable({ providedIn: 'root' })
 export class BookingApiService {
-    constructor(private http: HttpClient) { }
+  private httpClient = inject(HttpClient);
 
-    getAvailableSlots(): Observable<AvailableSlots> {
-        return this.http.get<AvailableSlots>('/api/available-slots');
+  getAvailableSlots(): Observable<AvailableSlotsDto> {
+    return this.httpClient.get<AvailableSlotsDto>('/api/available-slots');
     }
 }

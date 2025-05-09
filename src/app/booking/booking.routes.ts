@@ -5,7 +5,9 @@ export const bookingRoutes: Route[] = [
     {
         path: '',
         loadComponent: () =>
-            import('./pages/booking/booking.component').then((c) => c.BookingComponent),
+      import('./pages/booking/booking.component').then(
+        (c) => c.BookingComponent
+      ),
         children: [
             {
                 path: '',
@@ -23,9 +25,9 @@ export const bookingRoutes: Route[] = [
                 path: 'personal-info',
                 canActivate: [BookingStepGuard],
                 loadComponent: () =>
-                    import('./pages/booking-personal-info/booking-personal-info.component').then(
-                        (c) => c.BookingPersonalInfoComponent
-                    ),
+          import(
+            './pages/booking-personal-info/booking-personal-info.component'
+          ).then((c) => c.BookingPersonalInfoComponent),
             },
             {
                 path: 'summary',

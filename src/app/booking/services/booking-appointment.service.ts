@@ -1,11 +1,12 @@
-// booking-appointment.service.ts
-import { computed, Injectable, Signal, signal } from '@angular/core';
-import { AvailableTimeSlot } from '../models/available-slots.model';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { AvailableTimeSlotDto } from '../models/dtos/available-time-slot-dto.model';
 
 @Injectable({ providedIn: 'root' })
 export class BookingAppointmentService {
     private readonly _selectedDate = signal<Date | null>(null);
-    private readonly _selectedTimeSlot = signal<AvailableTimeSlot | null>(null);
+  private readonly _selectedTimeSlot = signal<AvailableTimeSlotDto | null>(
+    null
+  );
 
     readonly selectedDate = this._selectedDate.asReadonly();
     readonly selectedTimeSlot = this._selectedTimeSlot.asReadonly();
@@ -17,7 +18,7 @@ export class BookingAppointmentService {
         const formatter = new Intl.DateTimeFormat('sk-SK', {
             day: 'numeric',
             month: 'long',
-            year: 'numeric'
+      year: 'numeric',
         });
 
         return `${formatter.format(date)} o ${slot.time}`;
@@ -28,7 +29,7 @@ export class BookingAppointmentService {
         this._selectedTimeSlot.set(null);
     }
 
-    setSelectedTimeSlot(slot: AvailableTimeSlot): void {
+  setSelectedTimeSlot(slot: AvailableTimeSlotDto): void {
         this._selectedTimeSlot.set(slot);
     }
 }

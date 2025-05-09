@@ -1,4 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+:root {
+  @include mat.button-overrides(
+    (
+      filled-container-color: #0ba13b,
+      filled-label-text-color: white,
+    )
+  );
+
+  @include mat.datepicker-overrides(
+    (
+      calendar-date-selected-state-text-color: white,
+      calendar-date-selected-state-background-color: #0ba13b,
+    )
+  );
+
+  @include mat.checkbox-overrides(
+    (
+      selected-checkmark-color: black,
+      selected-focus-icon-color: white,
+      selected-icon-color: white,
+    )
+  );
+
+  @include mat.chips-overrides(
+    (
+      outline-color: #0ba13b,
+      label-text-color: #0ba13b,
+    )
+  );
+}

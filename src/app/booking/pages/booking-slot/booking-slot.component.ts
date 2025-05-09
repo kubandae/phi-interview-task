@@ -1,23 +1,40 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { BookingFooterComponent } from '../../components/booking-footer/booking-footer.component';
+import { BookingStepFooterComponent } from '../../components/booking-step-footer/booking-step-footer.component';
 import { BookingStepperService } from '../../services/booking-stepper.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
-import { AvailableTimeSlot } from '../../models/available-slots.model';
+import { AvailableTimeSlotDto } from '../../models/dtos/available-time-slot-dto.model';
 import { BookingAvailabilityService } from '../../services/booking-availability.service';
 import { BookingAppointmentService } from '../../services/booking-appointment.service';
+import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
 
 @Component({
   selector: 'app-booking-slot',
-  imports: [CommonModule, RouterModule, BookingFooterComponent, MatButtonModule, MatCardModule, MatDatepickerModule, MatDividerModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BookingStepHeaderComponent,
+    BookingStepFooterComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatDividerModule,
+  ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './booking-slot.component.html',
   styleUrl: './booking-slot.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingSlotComponent implements OnInit {
   private bookingStepperService = inject(BookingStepperService);
@@ -26,7 +43,9 @@ export class BookingSlotComponent implements OnInit {
 
   readonly availableDates = this.bookingAvailabilityService.availableDates;
   readonly availableTimeSlots = computed(() =>
-    this.bookingAvailabilityService.getAvailableTimeSlotsForDate(this.selectedDate())
+    this.bookingAvailabilityService.getAvailableTimeSlotsForDate(
+      this.selectedDate()
+    )
   );
 
   readonly selectedDate = this.bookingAppointmentService.selectedDate;
@@ -36,8 +55,8 @@ export class BookingSlotComponent implements OnInit {
     if (selected) return selected;
 
     const sorted = Array.from(this.bookingAvailabilityService.availableDates())
-      .map(str => new Date(str))
-      .filter(d => !isNaN(d.getTime()))
+      .map((str) => new Date(str))
+      .filter((d) => !isNaN(d.getTime()))
       .sort((a, b) => a.getTime() - b.getTime());
 
     return sorted[0] ?? null;
@@ -54,7 +73,7 @@ export class BookingSlotComponent implements OnInit {
     this.bookingAppointmentService.setSelectedDate(date);
   }
 
-  onTimeSlotSelected(slot: AvailableTimeSlot) {
+  onTimeSlotSelected(slot: AvailableTimeSlotDto) {
     this.bookingAppointmentService.setSelectedTimeSlot(slot);
   }
 

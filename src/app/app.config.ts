@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideHttpClient(),
     { provide: LOCALE_ID, useValue: 'sk' },
-    { provide: MAT_DATE_LOCALE, useValue: 'sk' }
+    { provide: MAT_DATE_LOCALE, useValue: 'sk' },
   ],
 };

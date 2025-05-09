@@ -2,14 +2,14 @@ import { Injectable, TemplateRef, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TopbarSlotService {
-    private _template = signal<TemplateRef<unknown> | null>(null);
-    readonly template = this._template.asReadonly();
+  private _template = signal<TemplateRef<unknown> | null>(null);
+  readonly template = this._template.asReadonly();
 
-    set(template: TemplateRef<unknown>) {
-        this._template.set(template);
-    }
+  set(template: TemplateRef<unknown>) {
+    this._template.set(template);
+  }
 
-    clear() {
-        this._template.set(null);
-    }
+  clear() {
+    this._template.set(null);
+  }
 }

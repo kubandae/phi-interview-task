@@ -8,14 +8,14 @@
     </span>
 
     <div class="top-bar-content-middle">
-      <ng-container *ngIf="topbarContent() as content">
-        <ng-container *ngTemplateOutlet="content"></ng-container>
+      <ng-container *ngIf="topbarMiddleContent() as middleContent">
+        <ng-container *ngTemplateOutlet="middleContent"></ng-container>
       </ng-container>
     </div>
 
     <div class="top-bar-content-right">
-      <ng-container *ngIf="topbarActions() as actions">
-        <ng-container *ngTemplateOutlet="actions"></ng-container>
+      <ng-container *ngIf="topbarRightContent() as rightContent">
+        <ng-container *ngTemplateOutlet="rightContent"></ng-container>
       </ng-container>
     </div>
   </div>

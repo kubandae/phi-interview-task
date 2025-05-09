@@ -2,14 +2,30 @@ import { Injectable, TemplateRef, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class TopbarSlotService {
-  private _template = signal<TemplateRef<unknown> | null>(null);
-  readonly template = this._template.asReadonly();
+  private _middleContentTemplate = signal<TemplateRef<unknown> | null>(null);
+  readonly middleContentTemplate = this._middleContentTemplate.asReadonly();
 
-  set(template: TemplateRef<unknown>) {
-    this._template.set(template);
+  private _rightContentTemplate = signal<TemplateRef<unknown> | null>(null);
+  readonly rightContentTemplate = this._rightContentTemplate.asReadonly();
+
+  setMiddleContent(template: TemplateRef<unknown>) {
+    this._middleContentTemplate.set(template);
   }
 
-  clear() {
-    this._template.set(null);
+  clearMiddleContent() {
+    this._middleContentTemplate.set(null);
+  }
+
+  setRightContent(template: TemplateRef<unknown>) {
+    this._rightContentTemplate.set(template);
+  }
+
+  clearRightContent() {
+    this._rightContentTemplate.set(null);
+  }
+
+  clearAllContent() {
+    this._middleContentTemplate.set(null);
+    this._rightContentTemplate.set(null);
   }
 }

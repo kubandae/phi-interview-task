@@ -21,7 +21,7 @@ export class BookingThankYouComponent implements OnInit {
   ngOnInit(): void {
     this.bookingAppointmentService.resetBooking();
     this.bookingStepperService.resetStep();
-    this.topBarSlotService.clear();
+    this.topBarSlotService.clearAllContent();
   }
 
   navigateToHospital() {

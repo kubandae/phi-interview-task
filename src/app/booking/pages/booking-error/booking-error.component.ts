@@ -18,6 +18,6 @@ export class BookingErrorComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookingStepperService.resetStep();
-    this.topBarSlotService.clear();
+    this.topBarSlotService.clearAllContent();
   }
 }

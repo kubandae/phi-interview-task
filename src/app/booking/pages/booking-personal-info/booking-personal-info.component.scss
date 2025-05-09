@@ -1,5 +1,30 @@
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.personal-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.personal-info-form {
+  display: grid;
+  gap: 24px;
+  padding-top: 32px;
+  width: 50%;
+}
+
+.grid-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-center {
+  display: flex;
+  justify-content: center;
 }

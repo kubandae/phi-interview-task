@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -16,11 +18,11 @@
 .booking-thank-you-title {
   font-size: 24px;
   font-weight: 400;
-  color: #033f75;
+  color: $color-primary-blue;
 }
 
 .booking-thank-you-subtitle {
   font-size: 16px;
-  color: #0ba13b;
+  color: $color-primary-green;
   margin-bottom: 32px;
 }

@@ -1,9 +1,17 @@
+@use 'breakpoints' as *;
+@use 'variables' as *;
+
 .stepper {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+
+  @include mobile {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 .step-container {
@@ -15,7 +23,7 @@
 
   &.active .step-icon,
   &.completed .step-icon {
-    color: #0ba13b;
+    color: $color-primary-green;
   }
 
   &.active .label,
@@ -43,6 +51,10 @@
   margin-bottom: 20px;
 
   &.line-completed {
-    background-color: #0ba13b;
+    background-color: $color-primary-green;
+  }
+
+  @include mobile {
+    display: none;
   }
 }

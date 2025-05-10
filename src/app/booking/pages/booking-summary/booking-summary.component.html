@@ -59,18 +59,31 @@
 
   <form [formGroup]="form" class="summary-form">
     <mat-checkbox formControlName="gdpr">
-      Oboznámil/a som sa s
-      <a href="#">informáciami o spracúvaní osobných údajov</a>.
+      <span class="checkbox-link">
+        Oboznámil/a som sa s
+        <a href="#" onclick="return false;"
+          >informáciami o spracúvaní osobných údajov</a
+        >.
+      </span>
     </mat-checkbox>
 
-    <mat-checkbox formControlName="terms">
-      Súhlasím so
-      <a href="#">všeobecnými obchodnými podmienkami</a> spoločnosti Nemocnica
-      Bory, a.s.
+    <mat-checkbox formControlName="terms" class="checkbox-link">
+      <span class="checkbox-link">
+        Súhlasím so
+        <a href="#" onclick="return false;"
+          >všeobecnými obchodnými podmienkami</a
+        >
+        spoločnosti Nemocnica Bory, a.s.
+      </span>
     </mat-checkbox>
 
-    <mat-checkbox formControlName="marketing">
-      Súhlasím so <a href="#">spracovaním údajov pre marketingové účely</a>.
+    <mat-checkbox formControlName="marketing" class="checkbox-link">
+      <span class="checkbox-link">
+        Súhlasím so
+        <a href="#" onclick="return false;"
+          >spracovaním údajov pre marketingové účely</a
+        >.
+      </span>
     </mat-checkbox>
   </form>
 </div>

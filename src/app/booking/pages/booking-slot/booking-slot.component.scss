@@ -1,3 +1,6 @@
+@use 'breakpoints' as *;
+@use 'variables' as *;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -7,32 +10,51 @@
 .booking-slot-wrapper {
   display: flex;
   justify-content: center;
-  padding-top: 32px;
+  padding: 16px;
 }
 
 .booking-slot-selection-wrapper {
-  width: 50%;
-  max-width: 800px;
-  padding: 24px;
+  width: 100%;
+  max-width: 700px;
+  padding: 32px;
   background-color: white;
+
+  @include mobile {
+    padding: 16px;
+  }
 }
 
 .booking-slot-selection-content {
   display: flex;
   gap: 24px;
-  flex-wrap: wrap;
+  align-items: flex-start;
+
+  @include mobile {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .booking-calendar {
-  flex: 2;
+  flex: 75%;
+
+  @include mobile {
+    width: 100%;
+  }
 }
 
 .booking-time-slots-wrapper {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  gap: 16px;
+  flex: 25%;
+  gap: 32px;
   align-items: center;
+
+  @include mobile {
+    width: 100%;
+    align-items: stretch;
+    padding-bottom: 16px;
+  }
 }
 
 .booking-time-slots-grid {
@@ -42,7 +64,7 @@
 }
 
 .booking-time-slot-button.booking-time-slot-selected {
-  background-color: #0ba13b !important;
+  background-color: $color-primary-green !important;
   color: white;
 }
 
@@ -51,20 +73,35 @@
   flex-direction: row;
   gap: 10px;
   align-items: center;
+  color: $color-primary-blue;
+  font-weight: 400;
 }
 
 .booking-availability-green-dot-indicator {
   width: 6px;
   height: 6px;
-  background-color: #0ba13b;
+  background-color: $color-primary-green;
   border-radius: 50%;
   display: inline-block;
 }
 
 .booking-available-times-title {
   font-size: 16px;
-  color: #033f75;
+  color: $color-primary-blue;
   font-weight: 400;
+
+  @include mobile {
+    align-self: center;
+  }
+}
+
+mat-divider[vertical] {
+  display: inline-block;
+  align-self: stretch;
+
+  @include mobile {
+    display: none;
+  }
 }
 
 ::ng-deep .mat-calendar-body-cell.has-availability {
@@ -81,6 +118,6 @@
   transform: translateX(-50%);
   width: 6px;
   height: 6px;
-  background-color: #0ba13b;
+  background-color: $color-primary-green;
   border-radius: 50%;
 }

@@ -1,3 +1,6 @@
+@use 'breakpoints' as *;
+@use 'variables' as *;
+
 :host {
   display: flex;
   flex-direction: column;
@@ -10,15 +13,29 @@
   align-items: center;
   gap: 32px;
   padding-top: 32px;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
+
+  @include mobile {
+    gap: 24px;
+    padding-top: 24px;
+  }
 }
 
 .card-wrapper {
   display: flex;
-  width: 50%;
+  width: 100%;
+  max-width: 800px;
   gap: 24px;
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .summary-card {
@@ -28,12 +45,23 @@
   flex-direction: column;
   gap: 16px;
   background-color: white;
+  box-sizing: border-box;
+
+  @include mobile {
+    width: 100%;
+    padding: 16px;
+  }
 }
 
 .summary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 24px;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 }
 
 .booking-summary-chip {
@@ -47,20 +75,26 @@
 }
 
 .summary-appointment-field {
-  color: #0ba13b;
+  color: $color-primary-green;
   font-size: 16px;
   font-weight: 400;
 }
 
 .summary-form {
-  width: 50%;
+  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
+  box-sizing: border-box;
 
-  mat-checkbox a {
-    color: #007bff;
-    text-decoration: underline;
+  @include mobile {
+    gap: 12px;
+    padding-bottom: 16px;
   }
+}
+
+.checkbox-link {
+  color: $color-primary-blue;
 }

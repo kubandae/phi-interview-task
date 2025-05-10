@@ -1,3 +1,5 @@
+@use 'breakpoints' as *;
+
 .top-bar {
   padding: 16px;
   border-bottom: 1px solid #eee;
@@ -9,24 +11,41 @@
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
-  gap: 16px;
+
+  @include mobile {
+    &.has-content {
+      gap: 16px;
+    }
+  }
 }
 
 .logo {
   flex: 0 0 200px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  @include mobile {
+    flex: 0 0 100%;
+    justify-content: center;
+  }
 }
 
 .top-bar-content-middle {
   flex: 1;
   display: flex;
   justify-content: center;
+
+  @include mobile {
+    justify-content: center;
+  }
 }
 
 .top-bar-content-right {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 120px;
-  justify-content: flex-end;
 }

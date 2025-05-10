@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
+@use 'variables' as *;
 
 html,
 body {
@@ -14,7 +15,7 @@ body {
 :root {
   @include mat.button-overrides(
     (
-      filled-container-color: #0ba13b,
+      filled-container-color: $color-primary-green,
       filled-label-text-color: white,
     )
   );
@@ -22,7 +23,7 @@ body {
   @include mat.datepicker-overrides(
     (
       calendar-date-selected-state-text-color: white,
-      calendar-date-selected-state-background-color: #0ba13b,
+      calendar-date-selected-state-background-color: $color-primary-green,
     )
   );
 
@@ -36,8 +37,8 @@ body {
 
   @include mat.chips-overrides(
     (
-      outline-color: #0ba13b,
-      label-text-color: #0ba13b,
+      outline-color: $color-primary-green,
+      label-text-color: $color-primary-green,
     )
   );
 }

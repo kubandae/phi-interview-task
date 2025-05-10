@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .booking-step-header-wrapper {
   display: flex;
   flex-direction: column;
@@ -7,14 +9,14 @@
 .booking-step-title {
   font-size: 24px;
   font-weight: 400;
-  color: #033f75;
+  color: $color-primary-blue;
   text-align: center;
 }
 
 .booking-step-description {
   font-size: 16px;
   font-weight: 400;
-  color: #033f75;
+  color: $color-primary-blue;
   text-align: center;
   white-space: pre-line;
 }

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
 
@@ -14,4 +19,8 @@ export class TopBarComponent {
 
   readonly topbarMiddleContent = this.topbarSlotService.middleContentTemplate;
   readonly topbarRightContent = this.topbarSlotService.rightContentTemplate;
+
+  readonly hasContent = computed(() => {
+    return !!this.topbarMiddleContent() || !!this.topbarRightContent();
+  });
 }

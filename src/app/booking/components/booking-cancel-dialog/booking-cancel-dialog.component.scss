@@ -1,3 +1,5 @@
+@use 'variables' as *;
+
 .dialog-wrapper {
   position: relative;
   padding: 24px;
@@ -13,14 +15,14 @@
   text-align: center;
   font-size: 24px;
   font-weight: 400;
-  color: #033f75;
+  color: $color-primary-blue;
   margin-bottom: 16px;
 }
 
 .dialog-content {
   text-align: center;
   font-size: 16px;
-  color: #033f75;
+  color: $color-primary-blue;
   margin-bottom: 16px;
 }
 

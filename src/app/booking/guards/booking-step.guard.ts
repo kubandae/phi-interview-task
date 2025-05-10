@@ -3,7 +3,7 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class BookingStepGuard implements CanActivate {
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   private readonly stepMap: Record<string, number> = {
     slot: 0,

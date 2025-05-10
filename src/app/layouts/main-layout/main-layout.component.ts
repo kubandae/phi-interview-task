@@ -1,16 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
+import { FooterComponent } from 'src/app/components/footer/footer.component';
+import { TopBarComponent } from 'src/app/components/top-bar/top-bar.component';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TopBarComponent, FooterComponent],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainLayoutComponent {
-  private readonly topbarSlotService = inject(TopbarSlotService);
-  readonly topbarMiddleContent = this.topbarSlotService.middleContentTemplate;
-  readonly topbarRightContent = this.topbarSlotService.rightContentTemplate;
-}
+export class MainLayoutComponent {}

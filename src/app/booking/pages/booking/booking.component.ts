@@ -13,6 +13,7 @@ import { BookingStepperHeaderComponent } from '../../components/booking-stepper-
 import { BookingStepperService } from '../../services/booking-stepper.service';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
 import { BookingCancelButtonComponent } from '../../components/booking-cancel-button/booking-cancel-button.component';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking',
@@ -33,9 +34,10 @@ export class BookingComponent implements OnDestroy {
   @ViewChild('bookingCancelButton', { static: true })
   bookingCancelButton!: TemplateRef<BookingCancelButtonComponent>;
 
-  private router = inject(Router);
-  private topBarSlotService = inject(TopbarSlotService);
-  private bookingStepperService = inject(BookingStepperService);
+  private readonly router = inject(Router);
+  private readonly topBarSlotService = inject(TopbarSlotService);
+  private readonly footerService = inject(FooterService);
+  private readonly bookingStepperService = inject(BookingStepperService);
 
   constructor() {
     this.router.events.subscribe((event) => {
@@ -70,6 +72,7 @@ export class BookingComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.bookingStepperService.resetStep();
     this.topBarSlotService.clearAllContent();
+    this.footerService.clear();
   }
 
   private isInvalidBackTarget(url: string): boolean {

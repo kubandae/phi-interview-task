@@ -3,12 +3,14 @@ import {
   Component,
   computed,
   inject,
+  OnDestroy,
   OnInit,
   signal,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { BookingStepFooterComponent } from '../../components/booking-step-footer/booking-step-footer.component';
 import { BookingStepperService } from '../../services/booking-stepper.service';
 import {
   ReactiveFormsModule,
@@ -25,6 +27,7 @@ import { BookingAppointmentService } from '../../services/booking-appointment.se
 import { ToastService } from 'src/app/services/toast.service';
 import { PersonalInfo } from '../../models/personal-info.model';
 import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking-personal-info',
@@ -32,7 +35,6 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
     CommonModule,
     RouterModule,
     BookingStepHeaderComponent,
-    BookingStepFooterComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -43,20 +45,30 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
   styleUrl: './booking-personal-info.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingPersonalInfoComponent implements OnInit {
-  readonly bookingStepperService = inject(BookingStepperService);
-  readonly bookingAppointmentService = inject(BookingAppointmentService);
-  readonly toastService = inject(ToastService);
-  readonly router = inject(Router);
-  readonly activatedRoute = inject(ActivatedRoute);
-  readonly formBuilder = inject(FormBuilder);
+export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
+  @ViewChild('footerContent', { static: true })
+  footerContent!: TemplateRef<unknown>;
+
+  private readonly footerService = inject(FooterService);
+  private readonly bookingStepperService = inject(BookingStepperService);
+  private readonly bookingAppointmentService = inject(
+    BookingAppointmentService
+  );
+  private readonly toastService = inject(ToastService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly formBuilder = inject(FormBuilder);
 
   readonly countries: Array<{ id: string; name: string }> = [
     { id: 'sk', name: 'Slovensko' },
     { id: 'cz', name: 'Česká Republika' },
   ];
-  readonly requiredCityForCountry = ['sk'];
-  readonly cities: Array<{ id: string; name: string; countryId: string }> = [
+  private readonly requiredCityForCountry = ['sk'];
+  readonly cities: Array<{
+    id: string;
+    name: string;
+    countryId: string;
+  }> = [
     { id: 'ba', name: 'Bratislava', countryId: 'sk' },
     { id: 'ke', name: 'Košice', countryId: 'sk' },
     { id: 'pr', name: 'Praha', countryId: 'cz' },
@@ -76,6 +88,7 @@ export class BookingPersonalInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookingStepperService.setActiveStep(1);
+    this.footerService.set(this.footerContent);
 
     this.form = this.formBuilder.group(
       {
@@ -116,7 +129,11 @@ export class BookingPersonalInfoComponent implements OnInit {
     }
   }
 
-  savePersonalInfoAndMoveNext() {
+  ngOnDestroy(): void {
+    this.footerService.clear();
+  }
+
+  savePersonalInfoAndMoveNext(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;

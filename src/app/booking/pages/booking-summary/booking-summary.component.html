@@ -1,83 +1,81 @@
-<div class="booking-content">
-  <app-booking-step-header
-    [title]="'Zhrnutie rezervácie'"
-  ></app-booking-step-header>
+<app-booking-step-header
+  [title]="'Zhrnutie rezervácie'"
+></app-booking-step-header>
 
-  <div class="summary-section">
-    <div class="card-wrapper">
-      <mat-card class="summary-card">
-        <mat-chip class="booking-summary-chip" selected>
-          <div class="booking-summary-chip-content">
-            <mat-icon class="chip-icon" inline>person</mat-icon>
-            <span>Osobné údaje</span>
-          </div>
-        </mat-chip>
-
-        <div class="summary-grid">
-          <app-booking-summary-field label="Meno">
-            {{ personalInfo()?.firstName }}
-          </app-booking-summary-field>
-          <app-booking-summary-field label="Priezvisko">
-            {{ personalInfo()?.lastName }}
-          </app-booking-summary-field>
+<div class="summary-section">
+  <div class="card-wrapper">
+    <mat-card class="summary-card">
+      <mat-chip class="booking-summary-chip" selected>
+        <div class="booking-summary-chip-content">
+          <mat-icon class="chip-icon" inline>person</mat-icon>
+          <span>Osobné údaje</span>
         </div>
+      </mat-chip>
 
-        <app-booking-summary-field label="Rodné číslo">
-          {{ personalInfo()?.birthNumber }}
+      <div class="summary-grid">
+        <app-booking-summary-field label="Meno">
+          {{ personalInfo()?.firstName }}
         </app-booking-summary-field>
-
-        <app-booking-summary-field label="Adresa">
-          @if(personalInfo()?.cityName) {
-          {{ personalInfo()?.cityName }}
-          <br />
-          }
-          {{ personalInfo()?.countryName }}
+        <app-booking-summary-field label="Priezvisko">
+          {{ personalInfo()?.lastName }}
         </app-booking-summary-field>
+      </div>
 
-        <mat-chip class="booking-summary-chip">
-          <div class="booking-summary-chip-content">
-            <mat-icon class="chip-icon" inline>arrow_forward</mat-icon>
-            <span>Kontaktné údaje</span>
-          </div>
-        </mat-chip>
-        <app-booking-summary-field label="E-mailová adresa">
-          {{ personalInfo()?.email }}
-        </app-booking-summary-field>
-      </mat-card>
+      <app-booking-summary-field label="Rodné číslo">
+        {{ personalInfo()?.birthNumber }}
+      </app-booking-summary-field>
 
-      <mat-card class="summary-card">
-        <mat-chip class="booking-summary-chip">
-          <div class="booking-summary-chip-content">
-            <mat-icon class="chip-icon" inline>calendar_month</mat-icon>
-            <span>Vybraný termín</span>
-          </div>
-        </mat-chip>
-        <div class="summary-appointment-field">
-          {{ appointmentSummary() }}
+      <app-booking-summary-field label="Adresa">
+        @if(personalInfo()?.cityName) {
+        {{ personalInfo()?.cityName }}
+        <br />
+        }
+        {{ personalInfo()?.countryName }}
+      </app-booking-summary-field>
+
+      <mat-chip class="booking-summary-chip">
+        <div class="booking-summary-chip-content">
+          <mat-icon class="chip-icon" inline>arrow_forward</mat-icon>
+          <span>Kontaktné údaje</span>
         </div>
-      </mat-card>
-    </div>
+      </mat-chip>
+      <app-booking-summary-field label="E-mailová adresa">
+        {{ personalInfo()?.email }}
+      </app-booking-summary-field>
+    </mat-card>
 
-    <form [formGroup]="form" class="summary-form">
-      <mat-checkbox formControlName="gdpr">
-        Oboznámil/a som sa s
-        <a href="#">informáciami o spracúvaní osobných údajov</a>.
-      </mat-checkbox>
-
-      <mat-checkbox formControlName="terms">
-        Súhlasím so
-        <a href="#">všeobecnými obchodnými podmienkami</a> spoločnosti Nemocnica
-        Bory, a.s.
-      </mat-checkbox>
-
-      <mat-checkbox formControlName="marketing">
-        Súhlasím so <a href="#">spracovaním údajov pre marketingové účely</a>.
-      </mat-checkbox>
-    </form>
+    <mat-card class="summary-card">
+      <mat-chip class="booking-summary-chip">
+        <div class="booking-summary-chip-content">
+          <mat-icon class="chip-icon" inline>calendar_month</mat-icon>
+          <span>Vybraný termín</span>
+        </div>
+      </mat-chip>
+      <div class="summary-appointment-field">
+        {{ appointmentSummary() }}
+      </div>
+    </mat-card>
   </div>
+
+  <form [formGroup]="form" class="summary-form">
+    <mat-checkbox formControlName="gdpr">
+      Oboznámil/a som sa s
+      <a href="#">informáciami o spracúvaní osobných údajov</a>.
+    </mat-checkbox>
+
+    <mat-checkbox formControlName="terms">
+      Súhlasím so
+      <a href="#">všeobecnými obchodnými podmienkami</a> spoločnosti Nemocnica
+      Bory, a.s.
+    </mat-checkbox>
+
+    <mat-checkbox formControlName="marketing">
+      Súhlasím so <a href="#">spracovaním údajov pre marketingové účely</a>.
+    </mat-checkbox>
+  </form>
 </div>
 
-<app-booking-step-footer>
+<ng-template #footerContent>
   <button
     mat-flat-button
     (click)="completeBookingAndMoveNext()"
@@ -85,4 +83,4 @@
   >
     Rezervovať a uhradiť
   </button>
-</app-booking-step-footer>
+</ng-template>

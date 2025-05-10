@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
 import { BookingStepperService } from '../../services/booking-stepper.service';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking-error',
@@ -13,11 +19,13 @@ import { BookingStepperService } from '../../services/booking-stepper.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingErrorComponent implements OnInit {
-  readonly topBarSlotService = inject(TopbarSlotService);
-  readonly bookingStepperService = inject(BookingStepperService);
+  private readonly footerService = inject(FooterService);
+  private readonly topBarSlotService = inject(TopbarSlotService);
+  private readonly bookingStepperService = inject(BookingStepperService);
 
   ngOnInit(): void {
     this.bookingStepperService.resetStep();
     this.topBarSlotService.clearAllContent();
+    this.footerService.clear();
   }
 }

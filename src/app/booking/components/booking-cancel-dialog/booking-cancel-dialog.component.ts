@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,13 +11,18 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   templateUrl: './booking-cancel-dialog.component.html',
   styleUrl: './booking-cancel-dialog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingCancelDialogComponent {
-  readonly dialogRef = inject(MatDialogRef<BookingCancelDialogComponent>);
-  readonly router = inject(Router);
-  readonly bookingAppointmentService = inject(BookingAppointmentService);
+  private readonly dialogRef = inject(
+    MatDialogRef<BookingCancelDialogComponent>
+  );
+  private readonly router = inject(Router);
+  private readonly bookingAppointmentService = inject(
+    BookingAppointmentService
+  );
 
-  cancelBooking() {
+  cancelBooking(): void {
     this.bookingAppointmentService.resetBooking();
     this.dialogRef.close();
     this.router.navigateByUrl('/booking/slot', { replaceUrl: true });

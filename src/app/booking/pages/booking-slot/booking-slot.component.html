@@ -1,62 +1,59 @@
-<div class="booking-content">
-  <app-booking-step-header
-    [title]="'Doprajte si druhý názor od XX v Nemocnici Bory'"
-    [description]="
-      'Vyberte si termín na XX-minútovú konzultáciu\n za poplatok a náš odborník zhodnotí váš zdravotný stav\n a odporučí spôsob liečby.'
-    "
-  >
-  </app-booking-step-header>
-  <div class="booking-slot-wrapper">
-    @if(calendarStartDate()) {
-    <mat-card class="booking-slot-selection-wrapper">
-      <div class="booking-slot-selection-content">
-        <div class="booking-calendar">
-          <mat-calendar
-            [selected]="selectedDate()"
-            [dateFilter]="isDateAvailable"
-            [dateClass]="dateClass"
-            (selectedChange)="onDateSelected($event)"
-            [startAt]="calendarStartDate()"
-          ></mat-calendar>
-          <div class="booking-availability-info">
-            <span class="booking-availability-green-dot-indicator"></span>Dni s
-            voľnými termínmi
-          </div>
-        </div>
-
-        <mat-divider vertical></mat-divider>
-
-        <div class="booking-time-slots-wrapper">
-          <div class="booking-available-times-title">Dostupné časy</div>
-          <div class="booking-time-slots-grid">
-            @for(slot of availableTimeSlots(); track slot.id){
-            <button
-              mat-stroked-button
-              color="primary"
-              class="booking-time-slot-button"
-              (click)="onTimeSlotSelected(slot)"
-              [class.booking-time-slot-selected]="
-                selectedTimeSlot()?.id === slot.id
-              "
-            >
-              {{ slot.time }}
-            </button>
-            }
-          </div>
+<app-booking-step-header
+  [title]="'Doprajte si druhý názor od XX v Nemocnici Bory'"
+  [description]="
+    'Vyberte si termín na XX-minútovú konzultáciu\n za poplatok a náš odborník zhodnotí váš zdravotný stav\n a odporučí spôsob liečby.'
+  "
+>
+</app-booking-step-header>
+<div class="booking-slot-wrapper">
+  @if(calendarStartDate()) {
+  <mat-card class="booking-slot-selection-wrapper">
+    <div class="booking-slot-selection-content">
+      <div class="booking-calendar">
+        <mat-calendar
+          [selected]="selectedDate()"
+          [dateFilter]="isDateAvailable"
+          [dateClass]="dateClass"
+          (selectedChange)="onDateSelected($event)"
+          [startAt]="calendarStartDate()"
+        ></mat-calendar>
+        <div class="booking-availability-info">
+          <span class="booking-availability-green-dot-indicator"></span>Dni s
+          voľnými termínmi
         </div>
       </div>
-    </mat-card>
-    }
-  </div>
+
+      <mat-divider vertical></mat-divider>
+
+      <div class="booking-time-slots-wrapper">
+        <div class="booking-available-times-title">Dostupné časy</div>
+        <div class="booking-time-slots-grid">
+          @for(slot of availableTimeSlots(); track slot.id){
+          <button
+            mat-stroked-button
+            color="primary"
+            class="booking-time-slot-button"
+            (click)="onTimeSlotSelected(slot)"
+            [class.booking-time-slot-selected]="
+              selectedTimeSlot()?.id === slot.id
+            "
+          >
+            {{ slot.time }}
+          </button>
+          }
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  }
 </div>
 
-<app-booking-step-footer>
+<ng-template #footerContent>
   <button
     mat-flat-button
-    class="booking-step-button"
     [routerLink]="['../personal-info']"
     [disabled]="!isStepCompleted()"
   >
     Pokračovať
   </button>
-</app-booking-step-footer>
+</ng-template>

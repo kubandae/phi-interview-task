@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,11 +10,12 @@ import { BookingCancelDialogComponent } from '../booking-cancel-dialog/booking-c
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './booking-cancel-button.component.html',
   styleUrl: './booking-cancel-button.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingCancelButtonComponent {
-  readonly dialog = inject(MatDialog);
+  private readonly dialog = inject(MatDialog);
 
-  openDialog() {
+  openDialog(): void {
     this.dialog.open(BookingCancelDialogComponent, { disableClose: true });
   }
 }

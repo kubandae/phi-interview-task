@@ -1,102 +1,100 @@
-<div class="booking-content">
-  <app-booking-step-header [title]="'Osobné údaje'"></app-booking-step-header>
+<app-booking-step-header [title]="'Osobné údaje'"></app-booking-step-header>
 
-  <div class="personal-info-wrapper">
-    <form [formGroup]="form" class="personal-info-form">
-      <!-- Name and Surname -->
-      <div class="grid-row-2">
-        <mat-form-field appearance="outline">
-          <mat-label>Meno</mat-label>
-          <input matInput formControlName="firstName" />
-          @if (form.get('firstName')?.hasError('required') &&
-          form.get('firstName')?.touched) {
-          <mat-error>Povinné pole</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Priezvisko</mat-label>
-          <input matInput formControlName="lastName" />
-          @if (form.get('lastName')?.hasError('required') &&
-          form.get('lastName')?.touched) {
-          <mat-error>Povinné pole</mat-error>
-          }
-        </mat-form-field>
-      </div>
-
-      <!-- Birth Number -->
-      <div class="grid-row-2">
-        <mat-form-field appearance="outline">
-          <mat-label>Rodné číslo</mat-label>
-          <input matInput formControlName="birthNumber" />
-          @if (form.get('birthNumber')?.hasError('invalidBirthNumberFormat') &&
-          form.get('birthNumber')?.touched) {
-          <mat-error
-            >Rodné číslo musí obsahovať 9 alebo 10 číslic a začínať platným
-            dátumom.</mat-error
-          >
-          } @if (form.get('birthNumber')?.hasError('mustBeAdultPerson')) {
-          <mat-error>Musíte mať aspoň 18 rokov.</mat-error>
-          }
-        </mat-form-field>
-        <div></div>
-      </div>
-
-      <!-- Country and City -->
-      <div class="grid-row-2">
-        <mat-form-field appearance="outline">
-          <mat-label>Štát</mat-label>
-          <mat-select formControlName="countryId">
-            @for (c of countries; track c.id) {
-            <mat-option [value]="c.id">{{ c.name }}</mat-option>
-            }
-          </mat-select>
-          @if (form.get('countryId')?.hasError('required') &&
-          form.get('countryId')?.touched) {
-          <mat-error>Povinné pole</mat-error>
-          }
-        </mat-form-field>
-
-        @if(showCityControl()) {
-        <mat-form-field appearance="outline">
-          <mat-label>Mesto / Obec</mat-label>
-          <mat-select formControlName="cityId">
-            @for (city of filteredCities(); track city.id) {
-            <mat-option [value]="city.id">{{ city.name }}</mat-option>
-            }
-          </mat-select>
-          @if (form.get('cityId')?.hasError('required') &&
-          form.get('cityId')?.touched) {
-          <mat-error>Povinné pole (pre Slovensko)</mat-error>
-          }
-        </mat-form-field>
+<div class="personal-info-wrapper">
+  <form [formGroup]="form" class="personal-info-form">
+    <!-- Name and Surname -->
+    <div class="grid-row-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Meno</mat-label>
+        <input matInput formControlName="firstName" />
+        @if (form.get('firstName')?.hasError('required') &&
+        form.get('firstName')?.touched) {
+        <mat-error>Povinné pole</mat-error>
         }
-      </div>
+      </mat-form-field>
 
-      <app-booking-step-header
-        [title]="'Kontaktné údaje'"
-      ></app-booking-step-header>
+      <mat-form-field appearance="outline">
+        <mat-label>Priezvisko</mat-label>
+        <input matInput formControlName="lastName" />
+        @if (form.get('lastName')?.hasError('required') &&
+        form.get('lastName')?.touched) {
+        <mat-error>Povinné pole</mat-error>
+        }
+      </mat-form-field>
+    </div>
 
-      <!-- Email -->
-      <div class="grid-row-2">
-        <mat-form-field appearance="outline">
-          <mat-label>E-mailová adresa</mat-label>
-          <input matInput formControlName="email" />
-          @if (form.get('email')?.hasError('required') &&
-          form.get('email')?.touched) {
-          <mat-error>E-mail je povinný</mat-error>
-          } @if (form.get('email')?.hasError('email') &&
-          form.get('email')?.touched) {
-          <mat-error>Zadajte platnú e-mailovú adresu</mat-error>
+    <!-- Birth Number -->
+    <div class="grid-row-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Rodné číslo</mat-label>
+        <input matInput formControlName="birthNumber" />
+        @if (form.get('birthNumber')?.hasError('invalidBirthNumberFormat') &&
+        form.get('birthNumber')?.touched) {
+        <mat-error
+          >Rodné číslo musí obsahovať 9 alebo 10 číslic a začínať platným
+          dátumom.</mat-error
+        >
+        } @if (form.get('birthNumber')?.hasError('mustBeAdultPerson')) {
+        <mat-error>Musíte mať aspoň 18 rokov.</mat-error>
+        }
+      </mat-form-field>
+      <div></div>
+    </div>
+
+    <!-- Country and City -->
+    <div class="grid-row-2">
+      <mat-form-field appearance="outline">
+        <mat-label>Štát</mat-label>
+        <mat-select formControlName="countryId">
+          @for (c of countries; track c.id) {
+          <mat-option [value]="c.id">{{ c.name }}</mat-option>
           }
-        </mat-form-field>
-        <div></div>
-      </div>
-    </form>
-  </div>
+        </mat-select>
+        @if (form.get('countryId')?.hasError('required') &&
+        form.get('countryId')?.touched) {
+        <mat-error>Povinné pole</mat-error>
+        }
+      </mat-form-field>
+
+      @if(showCityControl()) {
+      <mat-form-field appearance="outline">
+        <mat-label>Mesto / Obec</mat-label>
+        <mat-select formControlName="cityId">
+          @for (city of filteredCities(); track city.id) {
+          <mat-option [value]="city.id">{{ city.name }}</mat-option>
+          }
+        </mat-select>
+        @if (form.get('cityId')?.hasError('required') &&
+        form.get('cityId')?.touched) {
+        <mat-error>Povinné pole (pre Slovensko)</mat-error>
+        }
+      </mat-form-field>
+      }
+    </div>
+
+    <app-booking-step-header
+      [title]="'Kontaktné údaje'"
+    ></app-booking-step-header>
+
+    <!-- Email -->
+    <div class="grid-row-2">
+      <mat-form-field appearance="outline">
+        <mat-label>E-mailová adresa</mat-label>
+        <input matInput formControlName="email" />
+        @if (form.get('email')?.hasError('required') &&
+        form.get('email')?.touched) {
+        <mat-error>E-mail je povinný</mat-error>
+        } @if (form.get('email')?.hasError('email') &&
+        form.get('email')?.touched) {
+        <mat-error>Zadajte platnú e-mailovú adresu</mat-error>
+        }
+      </mat-form-field>
+      <div></div>
+    </div>
+  </form>
 </div>
 
-<app-booking-step-footer>
+<ng-template #footerContent>
   <button
     mat-flat-button
     (click)="savePersonalInfoAndMoveNext()"
@@ -104,4 +102,4 @@
   >
     Pokračovať
   </button>
-</app-booking-step-footer>
+</ng-template>

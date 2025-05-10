@@ -3,12 +3,14 @@ import {
   Component,
   computed,
   inject,
+  OnDestroy,
   OnInit,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { BookingStepFooterComponent } from '../../components/booking-step-footer/booking-step-footer.component';
 import { BookingStepperService } from '../../services/booking-stepper.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
@@ -18,6 +20,7 @@ import { AvailableTimeSlotDto } from '../../models/dtos/available-time-slot-dto.
 import { BookingAvailabilityService } from '../../services/booking-availability.service';
 import { BookingAppointmentService } from '../../services/booking-appointment.service';
 import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
+import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking-slot',
@@ -25,7 +28,6 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
     CommonModule,
     RouterModule,
     BookingStepHeaderComponent,
-    BookingStepFooterComponent,
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
@@ -36,10 +38,18 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
   styleUrl: './booking-slot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingSlotComponent implements OnInit {
-  private bookingStepperService = inject(BookingStepperService);
-  private bookingAvailabilityService = inject(BookingAvailabilityService);
-  private bookingAppointmentService = inject(BookingAppointmentService);
+export class BookingSlotComponent implements OnInit, OnDestroy {
+  @ViewChild('footerContent', { static: true })
+  footerContent!: TemplateRef<unknown>;
+
+  private readonly footerService = inject(FooterService);
+  private readonly bookingStepperService = inject(BookingStepperService);
+  private readonly bookingAvailabilityService = inject(
+    BookingAvailabilityService
+  );
+  private readonly bookingAppointmentService = inject(
+    BookingAppointmentService
+  );
 
   readonly availableDates = this.bookingAvailabilityService.availableDates;
   readonly availableTimeSlots = computed(() =>
@@ -67,13 +77,18 @@ export class BookingSlotComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookingStepperService.setActiveStep(0);
+    this.footerService.set(this.footerContent);
   }
 
-  onDateSelected(date: Date | null) {
+  ngOnDestroy(): void {
+    this.footerService.clear();
+  }
+
+  onDateSelected(date: Date | null): void {
     this.bookingAppointmentService.setSelectedDate(date);
   }
 
-  onTimeSlotSelected(slot: AvailableTimeSlotDto) {
+  onTimeSlotSelected(slot: AvailableTimeSlotDto): void {
     this.bookingAppointmentService.setSelectedTimeSlot(slot);
   }
 

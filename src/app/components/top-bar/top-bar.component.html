@@ -1,0 +1,22 @@
+<div class="top-bar">
+  <div class="top-bar-content-wrapper">
+    <span class="logo">
+      <img
+        src="https://h5u6x5h2.delivery.rocketcdn.me/wp-content/themes/procare/img/logo2.svg"
+        alt=""
+      />
+    </span>
+
+    <div class="top-bar-content-middle">
+      <ng-container *ngIf="topbarMiddleContent() as middleContent">
+        <ng-container *ngTemplateOutlet="middleContent"></ng-container>
+      </ng-container>
+    </div>
+
+    <div class="top-bar-content-right">
+      <ng-container *ngIf="topbarRightContent() as rightContent">
+        <ng-container *ngTemplateOutlet="rightContent"></ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,7 @@
 >
 </app-booking-step-header>
 <div class="booking-slot-wrapper">
-  @if(calendarStartDate()) {
+  @if(isLoaded() && calendarStartDate()) {
   <mat-card class="booking-slot-selection-wrapper">
     <div class="booking-slot-selection-content">
       <div class="booking-calendar">

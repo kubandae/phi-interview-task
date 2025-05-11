@@ -47,6 +47,31 @@ export class BookingAppointmentService {
   );
   readonly bookingResponse = computed(() => this._state().bookingResponse);
 
+  getAvailableDates(): Observable<Map<string, AvailableTimeSlotDto[]>> {
+    return this._bookingApiService.getAvailableSlots().pipe(
+      map((response) => {
+        const result = new Map<string, AvailableTimeSlotDto[]>();
+
+        Object.entries(response.slots ?? {}).forEach(([key, slots]) => {
+          const [day, month, year] = key.split('/').map(Number);
+          const isoDate = new Date(year, month - 1, day)
+            .toISOString()
+            .split('T')[0];
+
+          result.set(
+            isoDate,
+            slots.concat({
+              id: '65743dad-4ae8-4cf2-a519-e5650c961ecd', // simulated invalid slot for testing purposes
+              time: '23:00',
+            })
+          );
+        });
+
+        return result;
+      })
+    );
+  }
+
   setSelectedDate(date: Date | null): void {
     this._state.update((s) => ({
       ...s,

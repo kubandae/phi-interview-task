@@ -33,6 +33,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking-personal-info',
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -51,17 +52,17 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   @ViewChild('footerContent', { static: true })
   footerContent!: TemplateRef<unknown>;
 
-  private readonly footerService = inject(FooterService);
-  private readonly bookingStepperService = inject(BookingStepperService);
-  private readonly bookingAppointmentService = inject(
+  private readonly _footerService = inject(FooterService);
+  private readonly _bookingStepperService = inject(BookingStepperService);
+  private readonly _bookingAppointmentService = inject(
     BookingAppointmentService
   );
-  private readonly toastService = inject(ToastService);
-  private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly requiredCityForCountry: Array<string> = ['sk'];
+  private readonly _toastService = inject(ToastService);
+  private readonly _router = inject(Router);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _requiredCityForCountry: Array<string> = ['sk'];
 
   readonly countries: Array<{ id: string; name: string }> = [
     { id: 'sk', name: 'Slovensko' },
@@ -79,7 +80,9 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   ];
   readonly selectedCountryId = signal<string | null>(null);
   readonly showCityControl = computed(() => {
-    return this.requiredCityForCountry.includes(this.selectedCountryId() ?? '');
+    return this._requiredCityForCountry.includes(
+      this.selectedCountryId() ?? ''
+    );
   });
   readonly filteredCities = computed(() => {
     const countryId = this.selectedCountryId();
@@ -89,10 +92,10 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   form!: FormGroup;
 
   ngOnInit(): void {
-    this.bookingStepperService.setActiveStep(1);
-    this.footerService.set(this.footerContent);
+    this._bookingStepperService.setActiveStep(1);
+    this._footerService.set(this.footerContent);
 
-    this.form = this.formBuilder.group(
+    this.form = this._formBuilder.group(
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
@@ -106,12 +109,12 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
 
     this.form
       .get('countryId')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((countryId) => {
         this.selectedCountryId.set(countryId);
         const cityIdControl = this.form.get('cityId');
         if (
-          this.requiredCityForCountry.includes(this.selectedCountryId() ?? '')
+          this._requiredCityForCountry.includes(this.selectedCountryId() ?? '')
         ) {
           cityIdControl?.setValidators(Validators.required);
         } else {
@@ -121,7 +124,7 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
         cityIdControl?.setValue('');
       });
 
-    const personalInfo = this.bookingAppointmentService.personalInfo();
+    const personalInfo = this._bookingAppointmentService.personalInfo();
     if (personalInfo) {
       this.form.patchValue({
         firstName: personalInfo.firstName,
@@ -135,7 +138,7 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.footerService.clear();
+    this._footerService.clear();
   }
 
   savePersonalInfoAndMoveNext(): void {
@@ -161,20 +164,20 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
       email: this.form.value.email,
     };
 
-    this.bookingAppointmentService
+    this._bookingAppointmentService
       .submitPersonalInfo(data)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((result) => {
         if (
           result.success &&
-          this.bookingAppointmentService.personalInfo() &&
-          this.bookingAppointmentService.personalInfoResponse()
+          this._bookingAppointmentService.personalInfo() &&
+          this._bookingAppointmentService.personalInfoResponse()
         ) {
-          this.router.navigate(['../summary'], {
-            relativeTo: this.activatedRoute,
+          this._router.navigate(['../summary'], {
+            relativeTo: this._activatedRoute,
           });
         } else {
-          this.toastService.showError(
+          this._toastService.showError(
             result?.message || 'Nepodarilo sa uložiť údaje'
           );
         }

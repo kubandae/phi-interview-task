@@ -26,6 +26,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking-summary',
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -46,32 +47,32 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   @ViewChild('footerContent', { static: true })
   footerContent!: TemplateRef<unknown>;
 
-  private readonly footerService = inject(FooterService);
-  private readonly bookingStepperService = inject(BookingStepperService);
-  private readonly bookingAppointmentService = inject(
+  private readonly _footerService = inject(FooterService);
+  private readonly _bookingStepperService = inject(BookingStepperService);
+  private readonly _bookingAppointmentService = inject(
     BookingAppointmentService
   );
-  private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly formBuilder = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly _router = inject(Router);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _destroyRef = inject(DestroyRef);
 
-  readonly form = this.formBuilder.group({
+  readonly form = this._formBuilder.group({
     gdpr: [false, Validators.requiredTrue],
     terms: [false, Validators.requiredTrue],
     marketing: [false],
   });
 
-  personalInfo = this.bookingAppointmentService.personalInfo;
-  appointmentSummary = this.bookingAppointmentService.appointmentSummary;
+  personalInfo = this._bookingAppointmentService.personalInfo;
+  appointmentSummary = this._bookingAppointmentService.appointmentSummary;
 
   ngOnInit(): void {
-    this.bookingStepperService.setActiveStep(2);
-    this.footerService.set(this.footerContent);
+    this._bookingStepperService.setActiveStep(2);
+    this._footerService.set(this.footerContent);
   }
 
   ngOnDestroy(): void {
-    this.footerService.clear();
+    this._footerService.clear();
   }
 
   completeBookingAndMoveNext(): void {
@@ -80,26 +81,26 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.bookingAppointmentService.selectedTimeSlot()?.id) {
+    if (!this._bookingAppointmentService.selectedTimeSlot()?.id) {
       throw new Error('Missing time slot information.');
     }
 
     const completeBookingDto: CompleteBookingDto = {
-      id: this.bookingAppointmentService.selectedTimeSlot()!.id,
+      id: this._bookingAppointmentService.selectedTimeSlot()!.id,
     };
 
-    this.bookingAppointmentService
+    this._bookingAppointmentService
       .completeBooking(completeBookingDto)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((result) => {
         if (result.success) {
-          this.router.navigate(['../thank-you'], {
-            relativeTo: this.activatedRoute,
+          this._router.navigate(['../thank-you'], {
+            relativeTo: this._activatedRoute,
           });
         } else {
-          this.bookingAppointmentService.resetBooking();
-          this.router.navigate(['../error'], {
-            relativeTo: this.activatedRoute,
+          this._bookingAppointmentService.resetBooking();
+          this._router.navigate(['../error'], {
+            relativeTo: this._activatedRoute,
           });
         }
       });

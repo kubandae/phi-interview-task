@@ -13,28 +13,31 @@ import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking-thank-you',
+  standalone: true,
   imports: [CommonModule, MatButtonModule],
   templateUrl: './booking-thank-you.component.html',
   styleUrl: './booking-thank-you.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingThankYouComponent implements OnInit {
-  private readonly footerService = inject(FooterService);
-  private readonly topBarSlotService = inject(TopbarSlotService);
-  private readonly bookingStepperService = inject(BookingStepperService);
-  private readonly bookingAppointmentService = inject(
+  private readonly _footerService = inject(FooterService);
+  private readonly _topBarSlotService = inject(TopbarSlotService);
+  private readonly _bookingStepperService = inject(BookingStepperService);
+  private readonly _bookingAppointmentService = inject(
     BookingAppointmentService
   );
-  readonly firstName = this.bookingAppointmentService.personalInfo()?.firstName;
+
+  readonly firstName =
+    this._bookingAppointmentService.personalInfo()?.firstName;
 
   ngOnInit(): void {
-    this.bookingAppointmentService.resetBooking();
-    this.bookingStepperService.resetStep();
-    this.topBarSlotService.clearAllContent();
-    this.footerService.clear();
+    this._bookingAppointmentService.resetBooking();
+    this._bookingStepperService.resetStep();
+    this._topBarSlotService.clearAllContent();
+    this._footerService.clear();
   }
 
-  navigateToHospital(): void {
+  navigateToHospitalPage(): void {
     window.location.href = 'https://www.nemocnicabory.sk';
   }
 }

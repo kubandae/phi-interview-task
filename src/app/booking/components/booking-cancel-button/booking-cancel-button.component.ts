@@ -7,15 +7,16 @@ import { BookingCancelDialogComponent } from '../booking-cancel-dialog/booking-c
 
 @Component({
   selector: 'app-booking-cancel-button',
+  standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './booking-cancel-button.component.html',
   styleUrl: './booking-cancel-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingCancelButtonComponent {
-  private readonly dialog = inject(MatDialog);
+  private readonly _dialog = inject(MatDialog);
 
   openDialog(): void {
-    this.dialog.open(BookingCancelDialogComponent, { disableClose: true });
+    this._dialog.open(BookingCancelDialogComponent, { disableClose: true });
   }
 }

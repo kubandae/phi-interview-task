@@ -3,9 +3,8 @@ import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class BookingStepGuard implements CanActivate {
-  private readonly router = inject(Router);
-
-  private readonly stepMap: Record<string, number> = {
+  private readonly _router = inject(Router);
+  private readonly _stepMap: Record<string, number> = {
     slot: 0,
     'personal-info': 1,
     summary: 2,
@@ -19,9 +18,9 @@ export class BookingStepGuard implements CanActivate {
 
     if (target === 'slot') return true;
 
-    const currentPath = this.router.url.split('?')[0].replace('/booking/', '');
-    const currentOrder = this.stepMap[currentPath];
-    const targetOrder = this.stepMap[target];
+    const currentPath = this._router.url.split('?')[0].replace('/booking/', '');
+    const currentOrder = this._stepMap[currentPath];
+    const targetOrder = this._stepMap[target];
 
     if (
       currentOrder !== undefined &&
@@ -31,7 +30,7 @@ export class BookingStepGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigateByUrl('/booking/slot', { replaceUrl: true });
+    this._router.navigateByUrl('/booking/slot', { replaceUrl: true });
     return false;
   }
 }

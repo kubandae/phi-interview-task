@@ -6,6 +6,7 @@ import { BookingStepperService } from '../../services/booking-stepper.service';
 
 @Component({
   selector: 'app-booking-stepper-header',
+  standalone: true,
   imports: [CommonModule, MatStepperModule, MatIconModule],
   templateUrl: './booking-stepper-header.component.html',
   styleUrl: './booking-stepper-header.component.scss',

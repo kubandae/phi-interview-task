@@ -9,16 +9,16 @@ import { CompleteBookingResponseDto } from '../models/dtos/complete-booking-resp
 
 @Injectable({ providedIn: 'root' })
 export class BookingApiService {
-  private httpClient = inject(HttpClient);
+  private readonly _httpClient = inject(HttpClient);
 
   getAvailableSlots(): Observable<AvailableSlotsDto> {
-    return this.httpClient.get<AvailableSlotsDto>('/api/available-slots');
+    return this._httpClient.get<AvailableSlotsDto>('/api/available-slots');
   }
 
   submitPersonalInfo(
     data: PersonalInfoDto
   ): Observable<PersonalInfoResponseDto> {
-    return this.httpClient.post<PersonalInfoResponseDto>(
+    return this._httpClient.post<PersonalInfoResponseDto>(
       '/api/save-personal-data',
       data
     );
@@ -27,7 +27,7 @@ export class BookingApiService {
   completeBooking(
     data: CompleteBookingDto
   ): Observable<CompleteBookingResponseDto> {
-    return this.httpClient.post<CompleteBookingResponseDto>(
+    return this._httpClient.post<CompleteBookingResponseDto>(
       '/api/complete',
       data
     );

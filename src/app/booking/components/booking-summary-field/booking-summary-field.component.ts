@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-booking-summary-field',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './booking-summary-field.component.html',
   styleUrl: './booking-summary-field.component.scss',

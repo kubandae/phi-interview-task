@@ -18,6 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking',
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -35,13 +36,13 @@ export class BookingComponent implements OnDestroy {
   @ViewChild('bookingCancelButton', { static: true })
   bookingCancelButton!: TemplateRef<BookingCancelButtonComponent>;
 
-  private readonly router = inject(Router);
-  private readonly topBarSlotService = inject(TopbarSlotService);
-  private readonly footerService = inject(FooterService);
-  private readonly bookingStepperService = inject(BookingStepperService);
+  private readonly _router = inject(Router);
+  private readonly _topBarSlotService = inject(TopbarSlotService);
+  private readonly _footerService = inject(FooterService);
+  private readonly _bookingStepperService = inject(BookingStepperService);
 
   constructor() {
-    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+    this._router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (
         event instanceof NavigationStart &&
         event.navigationTrigger === 'popstate'
@@ -49,31 +50,31 @@ export class BookingComponent implements OnDestroy {
         const goingBackTo = event.url;
 
         if (this.isInvalidBackTarget(goingBackTo)) {
-          this.router.navigateByUrl('/', { replaceUrl: true });
+          this._router.navigateByUrl('/', { replaceUrl: true });
         }
       }
     });
 
     effect(() => {
-      const step = this.bookingStepperService.activeStep();
+      const step = this._bookingStepperService.activeStep();
       const middleContentTemplate =
-        this.topBarSlotService.middleContentTemplate();
+        this._topBarSlotService.middleContentTemplate();
       const rightContentTemplate =
-        this.topBarSlotService.rightContentTemplate();
+        this._topBarSlotService.rightContentTemplate();
 
       if (step !== null && !middleContentTemplate && this.stepperHeader) {
-        this.topBarSlotService.setMiddleContent(this.stepperHeader);
+        this._topBarSlotService.setMiddleContent(this.stepperHeader);
       }
       if (step !== null && !rightContentTemplate && this.bookingCancelButton) {
-        this.topBarSlotService.setRightContent(this.bookingCancelButton);
+        this._topBarSlotService.setRightContent(this.bookingCancelButton);
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.bookingStepperService.resetStep();
-    this.topBarSlotService.clearAllContent();
-    this.footerService.clear();
+    this._bookingStepperService.resetStep();
+    this._topBarSlotService.clearAllContent();
+    this._footerService.clear();
   }
 
   private isInvalidBackTarget(url: string): boolean {

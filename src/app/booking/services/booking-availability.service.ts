@@ -6,11 +6,10 @@ import { AvailableTimeSlotDto } from '../models/dtos/available-time-slot-dto.mod
 
 @Injectable({ providedIn: 'root' })
 export class BookingAvailabilityService {
-  private readonly api = inject(BookingApiService);
-
-  private readonly rawSlotsMap: Signal<Map<string, AvailableTimeSlotDto[]>> =
+  private readonly _bookingApiService = inject(BookingApiService);
+  private readonly _rawSlotsMap: Signal<Map<string, AvailableTimeSlotDto[]>> =
     toSignal(
-      this.api.getAvailableSlots().pipe(
+      this._bookingApiService.getAvailableSlots().pipe(
         map((response) => {
           const result = new Map<string, AvailableTimeSlotDto[]>();
           Object.entries(response.slots).forEach(([key, slots]) => {
@@ -33,12 +32,12 @@ export class BookingAvailabilityService {
     );
 
   readonly availableDates: Signal<Set<string>> = computed(
-    () => new Set(this.rawSlotsMap().keys())
+    () => new Set(this._rawSlotsMap().keys())
   );
 
   getAvailableTimeSlotsForDate(date: Date | null): AvailableTimeSlotDto[] {
     if (!date) return [];
     const iso = date.toISOString().split('T')[0];
-    return this.rawSlotsMap().get(iso) ?? [];
+    return this._rawSlotsMap().get(iso) ?? [];
   }
 }

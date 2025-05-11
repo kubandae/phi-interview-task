@@ -11,7 +11,7 @@ import { CompleteBookingResponseDto } from '../models/dtos/complete-booking-resp
 
 @Injectable({ providedIn: 'root' })
 export class BookingAppointmentService {
-  private readonly bookingApiService = inject(BookingApiService);
+  private readonly _bookingApiService = inject(BookingApiService);
   private readonly _state = signal<{
     selectedDate: Date | null;
     selectedTimeSlot: AvailableTimeSlotDto | null;
@@ -72,7 +72,7 @@ export class BookingAppointmentService {
       email: data.email,
     };
 
-    return this.bookingApiService.submitPersonalInfo(personalInfoDto).pipe(
+    return this._bookingApiService.submitPersonalInfo(personalInfoDto).pipe(
       tap((res: PersonalInfoResponseDto) => {
         this._state.update((s) => ({
           ...s,
@@ -94,7 +94,7 @@ export class BookingAppointmentService {
   }
 
   completeBooking(data: CompleteBookingDto): Observable<GenericSubmitResult> {
-    return this.bookingApiService.completeBooking(data).pipe(
+    return this._bookingApiService.completeBooking(data).pipe(
       tap((res: CompleteBookingResponseDto) => {
         this._state.update((s) => ({
           ...s,
@@ -114,7 +114,7 @@ export class BookingAppointmentService {
     );
   }
 
-  resetBooking() {
+  resetBooking(): void {
     this._state.set({
       selectedDate: null,
       selectedTimeSlot: null,

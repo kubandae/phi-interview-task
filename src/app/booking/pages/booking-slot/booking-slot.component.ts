@@ -24,6 +24,7 @@ import { FooterService } from 'src/app/services/footer.service';
 
 @Component({
   selector: 'app-booking-slot',
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -42,29 +43,28 @@ export class BookingSlotComponent implements OnInit, OnDestroy {
   @ViewChild('footerContent', { static: true })
   footerContent!: TemplateRef<unknown>;
 
-  private readonly footerService = inject(FooterService);
-  private readonly bookingStepperService = inject(BookingStepperService);
-  private readonly bookingAvailabilityService = inject(
+  private readonly _footerService = inject(FooterService);
+  private readonly _bookingStepperService = inject(BookingStepperService);
+  private readonly _bookingAvailabilityService = inject(
     BookingAvailabilityService
   );
-  private readonly bookingAppointmentService = inject(
+  private readonly _bookingAppointmentService = inject(
     BookingAppointmentService
   );
 
-  readonly availableDates = this.bookingAvailabilityService.availableDates;
+  readonly availableDates = this._bookingAvailabilityService.availableDates;
   readonly availableTimeSlots = computed(() =>
-    this.bookingAvailabilityService.getAvailableTimeSlotsForDate(
+    this._bookingAvailabilityService.getAvailableTimeSlotsForDate(
       this.selectedDate()
     )
   );
-
-  readonly selectedDate = this.bookingAppointmentService.selectedDate;
-  readonly selectedTimeSlot = this.bookingAppointmentService.selectedTimeSlot;
+  readonly selectedDate = this._bookingAppointmentService.selectedDate;
+  readonly selectedTimeSlot = this._bookingAppointmentService.selectedTimeSlot;
   readonly calendarStartDate = computed(() => {
-    const selected = this.bookingAppointmentService.selectedDate();
+    const selected = this._bookingAppointmentService.selectedDate();
     if (selected) return selected;
 
-    const sorted = Array.from(this.bookingAvailabilityService.availableDates())
+    const sorted = Array.from(this._bookingAvailabilityService.availableDates())
       .map((str) => new Date(str))
       .filter((d) => !isNaN(d.getTime()))
       .sort((a, b) => a.getTime() - b.getTime());
@@ -76,20 +76,20 @@ export class BookingSlotComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.bookingStepperService.setActiveStep(0);
-    this.footerService.set(this.footerContent);
+    this._bookingStepperService.setActiveStep(0);
+    this._footerService.set(this.footerContent);
   }
 
   ngOnDestroy(): void {
-    this.footerService.clear();
+    this._footerService.clear();
   }
 
   onDateSelected(date: Date | null): void {
-    this.bookingAppointmentService.setSelectedDate(date);
+    this._bookingAppointmentService.setSelectedDate(date);
   }
 
   onTimeSlotSelected(slot: AvailableTimeSlotDto): void {
-    this.bookingAppointmentService.setSelectedTimeSlot(slot);
+    this._bookingAppointmentService.setSelectedTimeSlot(slot);
   }
 
   isDateAvailable = (date: Date): boolean => {

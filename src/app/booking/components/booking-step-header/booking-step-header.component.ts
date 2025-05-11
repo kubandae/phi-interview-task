@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-booking-step-header',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './booking-step-header.component.html',
   styleUrl: './booking-step-header.component.scss',

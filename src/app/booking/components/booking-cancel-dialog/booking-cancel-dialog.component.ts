@@ -8,23 +8,24 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-booking-cancel-dialog',
+  standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   templateUrl: './booking-cancel-dialog.component.html',
   styleUrl: './booking-cancel-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingCancelDialogComponent {
-  private readonly dialogRef = inject(
+  private readonly _dialogRef = inject(
     MatDialogRef<BookingCancelDialogComponent>
   );
-  private readonly router = inject(Router);
-  private readonly bookingAppointmentService = inject(
+  private readonly _router = inject(Router);
+  private readonly _bookingAppointmentService = inject(
     BookingAppointmentService
   );
 
   cancelBooking(): void {
-    this.bookingAppointmentService.resetBooking();
-    this.dialogRef.close();
-    this.router.navigateByUrl('/booking/slot', { replaceUrl: true });
+    this._bookingAppointmentService.resetBooking();
+    this._dialogRef.close();
+    this._router.navigateByUrl('/booking/slot', { replaceUrl: true });
   }
 }

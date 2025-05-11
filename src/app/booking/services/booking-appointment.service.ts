@@ -11,14 +11,23 @@ import { CompleteBookingResponseDto } from '../models/dtos/complete-booking-resp
 
 @Injectable({ providedIn: 'root' })
 export class BookingAppointmentService {
-  readonly bookingApiService = inject(BookingApiService);
-  private readonly _selectedDate = signal<Date | null>(null);
-  private readonly _selectedTimeSlot = signal<AvailableTimeSlotDto | null>(
-    null
-  );
+  private readonly bookingApiService = inject(BookingApiService);
+  private readonly _state = signal<{
+    selectedDate: Date | null;
+    selectedTimeSlot: AvailableTimeSlotDto | null;
+    personalInfo: PersonalInfo | null;
+    personalInfoResponse: PersonalInfoResponseDto | null;
+    bookingResponse: CompleteBookingResponseDto | null;
+  }>({
+    selectedDate: null,
+    selectedTimeSlot: null,
+    personalInfo: null,
+    personalInfoResponse: null,
+    bookingResponse: null,
+  });
 
-  readonly selectedDate = this._selectedDate.asReadonly();
-  readonly selectedTimeSlot = this._selectedTimeSlot.asReadonly();
+  readonly selectedDate = computed(() => this._state().selectedDate);
+  readonly selectedTimeSlot = computed(() => this._state().selectedTimeSlot);
   readonly appointmentSummary: Signal<string | null> = computed(() => {
     const date = this.selectedDate();
     const slot = this.selectedTimeSlot();
@@ -32,26 +41,25 @@ export class BookingAppointmentService {
 
     return `${formatter.format(date)} o ${slot.time}`;
   });
-
-  private readonly _personalInfo = signal<PersonalInfo | null>(null);
-  readonly personalInfo = this._personalInfo.asReadonly();
-
-  private readonly _personalInfoResponse =
-    signal<PersonalInfoResponseDto | null>(null);
-  readonly personalInfoResponse = this._personalInfoResponse.asReadonly();
-
-  private readonly _bookingResponse = signal<CompleteBookingResponseDto | null>(
-    null
+  readonly personalInfo = computed(() => this._state().personalInfo);
+  readonly personalInfoResponse = computed(
+    () => this._state().personalInfoResponse
   );
-  readonly bookingResponse = this._bookingResponse.asReadonly();
+  readonly bookingResponse = computed(() => this._state().bookingResponse);
 
   setSelectedDate(date: Date | null): void {
-    this._selectedDate.set(date);
-    this._selectedTimeSlot.set(null);
+    this._state.update((s) => ({
+      ...s,
+      selectedDate: date,
+      selectedTimeSlot: null,
+    }));
   }
 
   setSelectedTimeSlot(slot: AvailableTimeSlotDto): void {
-    this._selectedTimeSlot.set(slot);
+    this._state.update((s) => ({
+      ...s,
+      selectedTimeSlot: slot,
+    }));
   }
 
   submitPersonalInfo(data: PersonalInfo): Observable<GenericSubmitResult> {
@@ -66,8 +74,11 @@ export class BookingAppointmentService {
 
     return this.bookingApiService.submitPersonalInfo(personalInfoDto).pipe(
       tap((res: PersonalInfoResponseDto) => {
-        this._personalInfo.set(data);
-        this._personalInfoResponse.set(res);
+        this._state.update((s) => ({
+          ...s,
+          personalInfo: data,
+          personalInfoResponse: res,
+        }));
       }),
       map(
         (res): GenericSubmitResult => ({
@@ -85,7 +96,10 @@ export class BookingAppointmentService {
   completeBooking(data: CompleteBookingDto): Observable<GenericSubmitResult> {
     return this.bookingApiService.completeBooking(data).pipe(
       tap((res: CompleteBookingResponseDto) => {
-        this._bookingResponse.set(res);
+        this._state.update((s) => ({
+          ...s,
+          bookingResponse: res,
+        }));
       }),
       map(
         (res): GenericSubmitResult => ({
@@ -101,9 +115,12 @@ export class BookingAppointmentService {
   }
 
   resetBooking() {
-    this.setSelectedDate(null);
-    this._personalInfo.set(null);
-    this._personalInfoResponse.set(null);
-    this._bookingResponse.set(null);
+    this._state.set({
+      selectedDate: null,
+      selectedTimeSlot: null,
+      personalInfo: null,
+      personalInfoResponse: null,
+      bookingResponse: null,
+    });
   }
 }

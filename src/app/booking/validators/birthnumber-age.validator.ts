@@ -1,6 +1,6 @@
 import { ValidatorFn, AbstractControl } from '@angular/forms';
 
-export function mustBeAdultPerson(): ValidatorFn {
+export function checkAdultFromBirthNumber(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: boolean } | null => {
     const raw = (control.value || '').trim();
     // 9 or 10 digits and slash position check
@@ -42,6 +42,6 @@ export function mustBeAdultPerson(): ValidatorFn {
       today.getDate()
     );
 
-    return birthDate <= minDate ? null : { mustBeAdultPerson: true };
+    return birthDate <= minDate ? null : { isUnderagePerson: true };
   };
 }

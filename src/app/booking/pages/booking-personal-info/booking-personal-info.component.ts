@@ -23,7 +23,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { mustBeAdultPerson } from '../../validators/birthnumber-age.validator';
+import { checkAdultFromBirthNumber } from '../../validators/birthnumber-age.validator';
 import { BookingAppointmentService } from '../../services/booking-appointment.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { PersonalInfo } from '../../models/personal-info.model';
@@ -100,7 +100,7 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        birthNumber: ['', [Validators.required, mustBeAdultPerson()]],
+        birthNumber: ['', [Validators.required, checkAdultFromBirthNumber()]],
         countryId: ['', Validators.required],
         cityId: [''],
         email: ['', [Validators.required, Validators.email]],

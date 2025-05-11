@@ -34,7 +34,7 @@
           >Rodné číslo musí obsahovať 9 alebo 10 číslic a začínať platným
           dátumom.</mat-error
         >
-        } @if (form.get('birthNumber')?.hasError('mustBeAdultPerson')) {
+        } @if (form.get('birthNumber')?.hasError('isUnderagePerson')) {
         <mat-error>Musíte mať aspoň 18 rokov.</mat-error>
         }
       </mat-form-field>

@@ -30,6 +30,7 @@ import { PersonalInfo } from '../../models/personal-info.model';
 import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
 import { FooterService } from 'src/app/services/footer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BookingStepKey } from '../../models/booking-step-key.enum';
 
 @Component({
   selector: 'app-booking-personal-info',
@@ -92,7 +93,7 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   form!: FormGroup;
 
   ngOnInit(): void {
-    this._bookingStepperService.setActiveStep(1);
+    this._bookingStepperService.setActiveStep(BookingStepKey.PersonalInfo);
     this._footerService.set(this.footerContent);
 
     this.form = this._formBuilder.group(

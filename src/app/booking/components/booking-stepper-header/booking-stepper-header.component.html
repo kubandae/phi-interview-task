@@ -2,17 +2,17 @@
   @for (step of steps; track step; let i = $index) {
   <div
     class="step-container"
-    [class.active]="(activeStep() ?? -1) === i"
-    [class.completed]="(activeStep() ?? -1) > i"
+    [class.active]="activeStepIndex() === i"
+    [class.completed]="activeStepIndex() > i"
   >
     <mat-icon class="step-icon">
-      {{ (activeStep() ?? -1) > i ? 'check_circle' : 'adjust' }}
+      {{ activeStepIndex() > i ? 'check_circle' : 'adjust' }}
     </mat-icon>
 
-    <div class="label">{{ step }}</div>
+    <div class="label">{{ step?.label }}</div>
   </div>
 
   @if (i < steps.length - 1) {
-  <div class="line" [class.line-completed]="(activeStep() ?? -1) > i"></div>
+  <div class="line" [class.line-completed]="activeStepIndex() > i"></div>
   } }
 </div>

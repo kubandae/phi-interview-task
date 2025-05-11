@@ -1,32 +1,24 @@
 import { inject, Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
+import { BookingStepKey } from '../models/booking-step-key.enum';
+import { BOOKING_STEP_TRANSITIONS } from '../booking-steps.config';
 
 @Injectable({ providedIn: 'root' })
 export class BookingStepGuard implements CanActivate {
   private readonly _router = inject(Router);
-  private readonly _stepMap: Record<string, number> = {
-    slot: 0,
-    'personal-info': 1,
-    summary: 2,
-    'thank-you': 3,
-    error: 3,
-  };
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const target = route.routeConfig?.path;
+    const target = route.routeConfig?.path as BookingStepKey | undefined;
     if (!target) return false;
 
-    if (target === 'slot') return true;
+    if (target === BookingStepKey.Slot) return true;
 
-    const currentPath = this._router.url.split('?')[0].replace('/booking/', '');
-    const currentOrder = this._stepMap[currentPath];
-    const targetOrder = this._stepMap[target];
+    const currentPath = this._router.url
+      .split('?')[0]
+      .replace('/booking/', '') as BookingStepKey;
+    const allowedNextSteps = BOOKING_STEP_TRANSITIONS[currentPath] ?? [];
 
-    if (
-      currentOrder !== undefined &&
-      targetOrder !== undefined &&
-      targetOrder === currentOrder + 1
-    ) {
+    if (allowedNextSteps.includes(target)) {
       return true;
     }
 

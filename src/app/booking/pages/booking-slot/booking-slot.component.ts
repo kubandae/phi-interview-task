@@ -24,6 +24,7 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
 import { FooterService } from 'src/app/services/footer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ToastService } from 'src/app/services/toast.service';
+import { BookingStepKey } from '../../models/booking-step-key.enum';
 
 @Component({
   selector: 'app-booking-slot',
@@ -86,7 +87,7 @@ export class BookingSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoaded.set(false);
-    this._bookingStepperService.setActiveStep(0);
+    this._bookingStepperService.setActiveStep(BookingStepKey.Slot);
     this._footerService.set(this.footerContent);
     this._bookingAppointmentService
       .getAvailableDates()

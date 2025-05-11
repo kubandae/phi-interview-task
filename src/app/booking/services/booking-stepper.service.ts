@@ -1,14 +1,21 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
+import { BOOKING_STEPS } from '../booking-steps.config';
+import { BookingStepKey } from '../models/booking-step-key.enum';
 
 @Injectable({ providedIn: 'root' })
 export class BookingStepperService {
-  private _activeStep = signal<number | null>(null);
+  private readonly _activeStep = signal<BookingStepKey | null>(null);
 
+  readonly steps = BOOKING_STEPS.filter((s) => s.showInStepper);
   readonly activeStep = this._activeStep.asReadonly();
-  readonly steps = ['Výber termínu', 'Vaše údaje', 'Zhrnutie'];
+  readonly activeStepIndex = computed(() =>
+    this._activeStep() !== null
+      ? this.steps.findIndex((s) => s.key === this._activeStep())
+      : -1
+  );
 
-  setActiveStep(index: number): void {
-    this._activeStep.set(index);
+  setActiveStep(step: BookingStepKey): void {
+    this._activeStep.set(step);
   }
 
   resetStep(): void {

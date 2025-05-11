@@ -23,6 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { BookingSummaryFieldComponent } from '../../components/booking-summary-field/booking-summary-field.component';
 import { FooterService } from 'src/app/services/footer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BookingStepKey } from '../../models/booking-step-key.enum';
 
 @Component({
   selector: 'app-booking-summary',
@@ -67,7 +68,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   appointmentSummary = this._bookingAppointmentService.appointmentSummary;
 
   ngOnInit(): void {
-    this._bookingStepperService.setActiveStep(2);
+    this._bookingStepperService.setActiveStep(BookingStepKey.Summary);
     this._footerService.set(this.footerContent);
   }
 

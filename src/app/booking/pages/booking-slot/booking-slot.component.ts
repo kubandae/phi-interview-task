@@ -52,7 +52,8 @@ export class BookingSlotComponent implements OnInit, OnDestroy {
     BookingAppointmentService
   );
 
-  readonly availableDates = this._bookingAvailabilityService.availableDates;
+  readonly availableDates =
+    this._bookingAvailabilityService.getAvailableDates();
   readonly availableTimeSlots = computed(() =>
     this._bookingAvailabilityService.getAvailableTimeSlotsForDate(
       this.selectedDate()
@@ -64,7 +65,7 @@ export class BookingSlotComponent implements OnInit, OnDestroy {
     const selected = this._bookingAppointmentService.selectedDate();
     if (selected) return selected;
 
-    const sorted = Array.from(this._bookingAvailabilityService.availableDates())
+    const sorted = Array.from(this.availableDates())
       .map((str) => new Date(str))
       .filter((d) => !isNaN(d.getTime()))
       .sort((a, b) => a.getTime() - b.getTime());

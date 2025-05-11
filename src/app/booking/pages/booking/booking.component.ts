@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookingCancelDialogComponent } from '../../components/booking-cancel-dialog/booking-cancel-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { BookingStepKey } from '../../models/booking-step-key.enum';
 
 @Component({
   selector: 'app-booking',
@@ -87,7 +88,15 @@ export class BookingComponent implements OnDestroy {
   }
 
   private isInvalidBackTarget(url: string): boolean {
-    const step = url.replace('/booking/', '').split('?')[0].replace('/', '');
-    return ['personal-info', 'summary', 'thank-you'].includes(step);
+    const step = url
+      .replace('/booking/', '')
+      .split('?')[0]
+      .replace('/', '') as BookingStepKey;
+    return [
+      BookingStepKey.PersonalInfo,
+      BookingStepKey.Summary,
+      BookingStepKey.ThankYou,
+      BookingStepKey.Error,
+    ].includes(step);
   }
 }

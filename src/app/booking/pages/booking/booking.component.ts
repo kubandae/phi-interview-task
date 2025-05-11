@@ -12,9 +12,12 @@ import { NavigationStart, Router, RouterModule } from '@angular/router';
 import { BookingStepperHeaderComponent } from '../../components/booking-stepper-header/booking-stepper-header.component';
 import { BookingStepperService } from '../../services/booking-stepper.service';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
-import { BookingCancelButtonComponent } from '../../components/booking-cancel-button/booking-cancel-button.component';
 import { FooterService } from 'src/app/services/footer.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { BookingCancelDialogComponent } from '../../components/booking-cancel-dialog/booking-cancel-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-booking',
@@ -22,8 +25,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   imports: [
     CommonModule,
     RouterModule,
+    MatButtonModule,
+    MatIconModule,
     BookingStepperHeaderComponent,
-    BookingCancelButtonComponent,
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.scss',
@@ -34,12 +38,13 @@ export class BookingComponent implements OnDestroy {
   stepperHeader!: TemplateRef<BookingStepperHeaderComponent>;
 
   @ViewChild('bookingCancelButton', { static: true })
-  bookingCancelButton!: TemplateRef<BookingCancelButtonComponent>;
+  bookingCancelButton!: TemplateRef<unknown>;
 
   private readonly _router = inject(Router);
   private readonly _topBarSlotService = inject(TopbarSlotService);
   private readonly _footerService = inject(FooterService);
   private readonly _bookingStepperService = inject(BookingStepperService);
+  private readonly _dialog = inject(MatDialog);
 
   constructor() {
     this._router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
@@ -75,6 +80,10 @@ export class BookingComponent implements OnDestroy {
     this._bookingStepperService.resetStep();
     this._topBarSlotService.clearAllContent();
     this._footerService.clear();
+  }
+
+  openCancelDialog(): void {
+    this._dialog.open(BookingCancelDialogComponent, { disableClose: true });
   }
 
   private isInvalidBackTarget(url: string): boolean {

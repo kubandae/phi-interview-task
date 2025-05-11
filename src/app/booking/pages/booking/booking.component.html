@@ -3,7 +3,9 @@
 </ng-template>
 
 <ng-template #bookingCancelButton>
-  <app-booking-cancel-button></app-booking-cancel-button>
+  <button mat-icon-button (click)="openCancelDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
 </ng-template>
 
 <router-outlet></router-outlet>

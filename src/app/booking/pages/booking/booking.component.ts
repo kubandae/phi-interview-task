@@ -14,6 +14,7 @@ import { BookingStepperService } from '../../services/booking-stepper.service';
 import { TopbarSlotService } from 'src/app/services/top-bar-slot.service';
 import { BookingCancelButtonComponent } from '../../components/booking-cancel-button/booking-cancel-button.component';
 import { FooterService } from 'src/app/services/footer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking',
@@ -40,7 +41,7 @@ export class BookingComponent implements OnDestroy {
   private readonly bookingStepperService = inject(BookingStepperService);
 
   constructor() {
-    this.router.events.subscribe((event) => {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (
         event instanceof NavigationStart &&
         event.navigationTrigger === 'popstate'

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
   OnDestroy,
   OnInit,
@@ -28,6 +29,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { PersonalInfo } from '../../models/personal-info.model';
 import { BookingStepHeaderComponent } from '../../components/booking-step-header/booking-step-header.component';
 import { FooterService } from 'src/app/services/footer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking-personal-info',
@@ -58,12 +60,13 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly requiredCityForCountry: Array<string> = ['sk'];
 
   readonly countries: Array<{ id: string; name: string }> = [
     { id: 'sk', name: 'Slovensko' },
     { id: 'cz', name: 'Česká Republika' },
   ];
-  private readonly requiredCityForCountry = ['sk'];
   readonly cities: Array<{
     id: string;
     name: string;
@@ -74,7 +77,6 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
     { id: 'pr', name: 'Praha', countryId: 'cz' },
     { id: 'br', name: 'Brno', countryId: 'cz' },
   ];
-
   readonly selectedCountryId = signal<string | null>(null);
   readonly showCityControl = computed(() => {
     return this.requiredCityForCountry.includes(this.selectedCountryId() ?? '');
@@ -102,19 +104,22 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
       { updateOn: 'blur' }
     );
 
-    this.form.get('countryId')?.valueChanges.subscribe((countryId) => {
-      this.selectedCountryId.set(countryId);
-      const cityIdControl = this.form.get('cityId');
-      if (
-        this.requiredCityForCountry.includes(this.selectedCountryId() ?? '')
-      ) {
-        cityIdControl?.setValidators(Validators.required);
-      } else {
-        cityIdControl?.clearValidators();
-      }
-      cityIdControl?.updateValueAndValidity();
-      cityIdControl?.setValue('');
-    });
+    this.form
+      .get('countryId')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((countryId) => {
+        this.selectedCountryId.set(countryId);
+        const cityIdControl = this.form.get('cityId');
+        if (
+          this.requiredCityForCountry.includes(this.selectedCountryId() ?? '')
+        ) {
+          cityIdControl?.setValidators(Validators.required);
+        } else {
+          cityIdControl?.clearValidators();
+        }
+        cityIdControl?.updateValueAndValidity();
+        cityIdControl?.setValue('');
+      });
 
     const personalInfo = this.bookingAppointmentService.personalInfo();
     if (personalInfo) {
@@ -158,6 +163,7 @@ export class BookingPersonalInfoComponent implements OnInit, OnDestroy {
 
     this.bookingAppointmentService
       .submitPersonalInfo(data)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
         if (
           result.success &&

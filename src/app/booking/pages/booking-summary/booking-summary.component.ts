@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   OnDestroy,
   OnInit,
@@ -21,6 +22,7 @@ import { BookingStepHeaderComponent } from '../../components/booking-step-header
 import { MatIconModule } from '@angular/material/icon';
 import { BookingSummaryFieldComponent } from '../../components/booking-summary-field/booking-summary-field.component';
 import { FooterService } from 'src/app/services/footer.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking-summary',
@@ -51,17 +53,17 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
   );
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
-
-  personalInfo = this.bookingAppointmentService.personalInfo;
-  appointmentSummary = this.bookingAppointmentService.appointmentSummary;
-
   private readonly formBuilder = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly form = this.formBuilder.group({
     gdpr: [false, Validators.requiredTrue],
     terms: [false, Validators.requiredTrue],
     marketing: [false],
   });
+
+  personalInfo = this.bookingAppointmentService.personalInfo;
+  appointmentSummary = this.bookingAppointmentService.appointmentSummary;
 
   ngOnInit(): void {
     this.bookingStepperService.setActiveStep(2);
@@ -88,6 +90,7 @@ export class BookingSummaryComponent implements OnInit, OnDestroy {
 
     this.bookingAppointmentService
       .completeBooking(completeBookingDto)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
         if (result.success) {
           this.router.navigate(['../thank-you'], {

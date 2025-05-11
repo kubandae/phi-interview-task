@@ -1,3 +1,5 @@
 @if(showFooter()) { @if(footerContent(); as content) {
-<ng-container *ngTemplateOutlet="content"></ng-container>
+<div class="footer">
+  <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
 } }
